@@ -115,7 +115,7 @@ class FillChoices(QDialog):
         file_dialog = QFileDialog(self)
         file_dialog.setWindowTitle("Select the file with subtitles")
         file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
-        file_dialog.setNameFilter("Subtitles (*.srt *.sub *.ass *.stl);;Text (*.txt);;All Files (*)")
+        file_dialog.setNameFilter("Subtitles (*.srt *.sub *.ass *.stl);;Video Files (*.mkv *.mp4 .*m2ts *.avi);;Text (*.txt);;All Files (*)")
 
         if file_dialog.exec():
             selected_files = file_dialog.selectedFiles()
