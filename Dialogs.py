@@ -14,20 +14,23 @@ class FillChoices(QDialog):
         super().__init__()
 
         # Create widgets
-        self.sample_label = QLabel("Sample Sentence")
-        self.sample_field = QComboBox()
-        self.sample_field.addItems(notes_fields)
-        self.sample_field.setCurrentIndex(sentence_field_index(notes_fields))
+        self.sentence_label = QLabel("Sample Sentence field")
+        self.sentence_field = QComboBox()
+        self.sentence_field.addItems(notes_fields)
+        self.sentence_field.setCurrentIndex(sentence_field_index(notes_fields))
 
-        self.screen_label = QLabel("Screenshot")
-        self.screen_field = QComboBox()
-        self.screen_field.addItems(notes_fields)
-        # self.screen_field.setCurrentIndex(sentence_field_index(notes_fields))
+        self.screenshot_label = QLabel("Screenshot field")
+        self.screenshot_field = QComboBox()
+        self.screenshot_field.addItems(notes_fields)
+        # self.screenshot_field.setCurrentIndex(sentence_field_index(notes_fields))
+
+        self.source_field_label = QLabel("Source field")
+        self.source_field = QComboBox()
+        self.source_field.addItems(notes_fields)
 
         self.source_label = QLabel("Source")
-        self.source_field = QLineEdit()
-        self.source_field.setMaxLength(255)
-        self.source_field.setPlaceholderText("Enter source name")
+        self.source_text = QLineEdit()
+        self.source_text.setMaxLength(255)
 
         self.button_ok = QPushButton("OK")
         self.button_cancel = QPushButton("Cancel")
@@ -36,12 +39,14 @@ class FillChoices(QDialog):
         font_size = int(self.source_label.font().pointSize())
 
         layout = QVBoxLayout()
-        layout.addWidget(self.sample_label)
-        layout.addWidget(self.sample_field)
-        layout.addWidget(self.screen_label)
-        layout.addWidget(self.screen_field)
-        layout.addWidget(self.source_label)
+        layout.addWidget(self.sentence_label)
+        layout.addWidget(self.sentence_field)
+        layout.addWidget(self.screenshot_label)
+        layout.addWidget(self.screenshot_field)
+        layout.addWidget(self.source_field_label)
         layout.addWidget(self.source_field)
+        layout.addWidget(self.source_label)
+        layout.addWidget(self.source_text)
 
         layout.addSpacing(2 * font_size)
         layout.addStretch()
@@ -65,4 +70,4 @@ class FillChoices(QDialog):
         self.button_cancel.clicked.connect(self.reject)
 
     def get_selected_options(self):
-        return self.sample_field.currentText(), self.screen_field.currentText(), self.source_field.text()
+        return self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text()

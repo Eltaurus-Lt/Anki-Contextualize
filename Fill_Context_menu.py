@@ -19,7 +19,7 @@ def fill_choices(browser):
     dialog = Dialogs.FillChoices(['—'] + unique_fields)
     if not dialog.exec():
         return
-    sample_field, screen_field, source = dialog.get_selected_options()
+    sample_field, screen_field, source_field, source_text = dialog.get_selected_options()
 
     # Gathering all potential choice options
     all_choices = set()
