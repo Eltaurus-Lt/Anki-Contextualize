@@ -35,6 +35,19 @@ class FillChoices(QDialog):
         self.button_ok = QPushButton("OK")
         self.button_cancel = QPushButton("Cancel")
 
+        self.videoFile_label = QLabel("Video")
+        self.videoFile_path = QLineEdit("")
+        self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.videoFile_button = QPushButton("Select File", self)
+        self.videoFile_button.clicked.connect(self.selectVideoFile)
+
+        self.subtitleFile_label = QLabel("Subtitles")
+        self.subtitleFile_path = QLineEdit("")
+        self.subtitleFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.subtitleFile_button = QPushButton("Select File", self)
+        self.subtitleFile_button.clicked.connect(self.selectSubtitleFile)
+
+
         # Create layout
         font_size = int(self.source_label.font().pointSize())
 
@@ -47,6 +60,20 @@ class FillChoices(QDialog):
         layout.addWidget(self.source_field)
         layout.addWidget(self.source_label)
         layout.addWidget(self.source_text)
+
+        layout.addSpacing(2 * font_size)
+
+        layout.addWidget(self.videoFile_label)
+        videoFile_layout = QHBoxLayout()
+        videoFile_layout.addWidget(self.videoFile_path)
+        videoFile_layout.addWidget(self.videoFile_button)
+        layout.addLayout(videoFile_layout)
+
+        layout.addWidget(self.subtitleFile_label)
+        subtitleFile_layout = QHBoxLayout()
+        subtitleFile_layout.addWidget(self.subtitleFile_path)
+        subtitleFile_layout.addWidget(self.subtitleFile_button)
+        layout.addLayout(subtitleFile_layout)
 
         layout.addSpacing(2 * font_size)
         layout.addStretch()
@@ -71,3 +98,27 @@ class FillChoices(QDialog):
 
     def get_selected_options(self):
         return self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text()
+
+    def selectVideoFile(self):
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle("Select the video file")
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        file_dialog.setNameFilter("Video Files (*.mkv *.mp4 .*m2ts *.avi);;All Files (*)")
+
+        if file_dialog.exec():
+            selected_files = file_dialog.selectedFiles()
+            if selected_files:
+                file_name = selected_files[0]
+                self.videoFile_path.setText(file_name)
+
+    def selectSubtitleFile(self):
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle("Select the file with subtitles")
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        file_dialog.setNameFilter("Subtitles (*.srt *.sub *.ass *.stl);;Text (*.txt);;All Files (*)")
+
+        if file_dialog.exec():
+            selected_files = file_dialog.selectedFiles()
+            if selected_files:
+                file_name = selected_files[0]
+                self.subtitleFile_path.setText(file_name)
