@@ -16,10 +16,10 @@ def fill_choices(browser):
     unique_fields = [field for field in all_fields if not (field in added or added.add(field))]
 
     # Settings Dialog
-    dialog = Dialogs.FillChoices(unique_fields)
+    dialog = Dialogs.FillChoices(['—'] + unique_fields)
     if not dialog.exec():
         return
-    source_field, choices_field, append = dialog.get_selected_options()
+    sample_field, screen_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
 
     # Gathering all potential choice options
     all_choices = set()
@@ -30,28 +30,19 @@ def fill_choices(browser):
     # Filling choices field on each note
     counter = 0
     for note in notes:
-        if choices_field not in note.keys():
-            continue
-        choices_filtered = {choice for choice in all_choices if (source_field not in note.keys() or choice != note[source_field])}
-
-        if append and note[choices_field]:
-            choices_filtered.update([choice.strip() for choice in note[choices_field].split("|")])
-
-        note[choices_field] = " | ".join([choice for choice in choices_filtered if choice])
-        mw.col.update_note(note)
         counter += 1
 
-    tooltip(f'Choices filled for {counter} notes')
+    tooltip(f'{sample_field}, {screen_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
     
 
 
 def choices_context_menu(browser):
     menuC = browser.form.menu_Cards
-    actionC = menuC.addAction("Fill Choices")
+    actionC = menuC.addAction("Contextualize")
     qconnect(actionC.triggered, lambda: fill_choices(browser))
 
     menuN = browser.form.menu_Notes
-    actionN = menuN.addAction("Fill Choices")
+    actionN = menuN.addAction("Contextualize")
     qconnect(actionN.triggered, lambda: fill_choices(browser))
 
 
