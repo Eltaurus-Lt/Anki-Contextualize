@@ -35,6 +35,13 @@ class FillChoices(QDialog):
         self.button_ok = QPushButton("OK")
         self.button_cancel = QPushButton("Cancel")
 
+        self.subtitleFile_label = QLabel("Subtitles")
+        self.subtitleFile_path = QLineEdit("")
+        self.subtitleFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.subtitleFile_button = QPushButton("Select File", self)
+        self.subtitleFile_button.clicked.connect(self.selectSubtitleFile)
+
+
         # Create layout
         font_size = int(self.source_label.font().pointSize())
 
@@ -61,6 +68,12 @@ class FillChoices(QDialog):
         button_layout.addWidget(self.button_cancel)
         layout.addLayout(button_layout)
 
+        layout.addWidget(self.subtitleFile_label)
+        subtitleFile_layout = QHBoxLayout()
+        subtitleFile_layout.addWidget(self.subtitleFile_path)
+        subtitleFile_layout.addWidget(self.subtitleFile_button)
+        layout.addLayout(subtitleFile_layout)
+
         # Set size limits
         self.setMinimumWidth(30 * font_size)
         self.setMaximumHeight(25 * font_size)
@@ -75,3 +88,23 @@ class FillChoices(QDialog):
 
     def get_selected_options(self):
         return self.source_field.currentText(), self.choices_field.currentText(), self.radio_append.isChecked()
+
+    def selectSubtitleFile(self):
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle("Select the file with subtitles")
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        file_dialog.setNameFilter("Subtitles (*.srt *.sub *.ass *.stl);;Text (*.txt);;All Files (*)")
+
+        # options = QFileDialog.Options()
+        # options |= QFileDialog.DontUseNativeDialog
+        # file_name, _ = QFileDialog.getOpenFileName(self,
+        #                     "Select the file with subtitles",
+        #                     "",
+        #                     "Subtitles (*.srt *.sub *.ass *.stl);;Text (*.txt);;All Files (*)",
+        #                     options=options)
+
+        if file_dialog.exec():
+            selected_files = file_dialog.selectedFiles()
+            if selected_files:
+                file_name = selected_files[0]
+                self.subtitleFile_path.setText(file_name)
