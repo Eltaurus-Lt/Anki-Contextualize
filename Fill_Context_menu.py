@@ -19,7 +19,7 @@ def fill_choices(browser):
     dialog = Dialogs.FillChoices(['—'] + unique_fields)
     if not dialog.exec():
         return
-    sample_field, screen_field, source_field, source_text = dialog.get_selected_options()
+    sample_field, screen_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
 
     # Gathering all potential choice options
     all_choices = set()
@@ -32,7 +32,7 @@ def fill_choices(browser):
     for note in notes:
         counter += 1
 
-    tooltip(f'Choices filled for {counter} notes')
+    tooltip(f'{sample_field}, {screen_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
     
 
 
