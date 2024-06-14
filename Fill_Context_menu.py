@@ -8,7 +8,7 @@ def averageTimestamps(t1, t2):
     return
 
 def subtitleParse(filepath):
-    return [{'ts': 42, 'sentence': "ピクニックに行く"}]
+    return [{'ts': "00:00:11.38", 'sentence': "ピクニックに行く"}]
 
 def wordConjugations(word, word_alts, pos, dic):
     # generate possible word forms based on part of speech (pos) and rules from referenced dictionary file
@@ -16,7 +16,12 @@ def wordConjugations(word, word_alts, pos, dic):
     return {word}
 
 def subtitleWordSearch(word_forms, sentence_db):
-    return {'ts': 42, 'sentence': "ピクニックに行く", 'word_form': "行く"}
+    for entry in sentence_db:
+        for word in word_forms:
+            if word in entry['sentence']:
+                return {'ts': entry['ts'], 'sentence': entry['sentence'], 'word form': word}
+
+    return {}
 
 def formatSampleSentence(word_form, sentence):
     return sentence
@@ -37,8 +42,19 @@ def contextualize(browser):
     if not dialog.exec():
         return
     word_field, word_conj_field, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
+    
+    tooltip(f'{sentence_field}, {screenshot_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
 
     sentence_db = subtitleParse(subtitleFile_path)
+
+    ## search test
+    # test_db = [
+    #     {'ts': "00:00:11.38", 'sentence': "なにか食べましょうか"},
+    #     {'ts': "00:04:08.15", 'sentence': "ピクニックに行く"},
+    #     {'ts': "00:16:23.42", 'sentence': "ゆくえふめい"},
+    #     ]
+    # test_searchResult = subtitleWordSearch({"行く", "いく", "ゆく"}, test_db)
+    # tooltip(test_searchResult)
 
     screenshots_meta = set()
     counter = 0
@@ -58,11 +74,10 @@ def contextualize(browser):
     for meta in screenshots_meta:
         Screenshots.save(meta['ts'], meta['filename'], videoFile_path)
 
+    ## screenshot test
     # test_ts = "00:16:24.00"
     # test_videoFile_path = "D:\Lang\日本語\聴解\shirokumakafe\Shirokuma Cafe e04.mkv"
     # Screenshots.save(test_ts, Screenshots.composeName(test_videoFile_path, test_ts), test_videoFile_path)
-
-    tooltip(f'{sentence_field}, {screenshot_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
     
 
 
