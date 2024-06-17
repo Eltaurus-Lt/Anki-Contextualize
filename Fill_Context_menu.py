@@ -1,11 +1,8 @@
-from . import Dialogs, Screenshots
+from . import Dialogs, Screenshots, Timestamps
 from aqt import mw, gui_hooks
 from aqt.qt import *
 from aqt.utils import tooltip
 import os
-
-def averageTimestamps(t1, t2):
-    return
 
 def subtitleParse(filepath):
     return [{'ts': "00:00:11.38", 'sentence': "ピクニックに行く"}]
