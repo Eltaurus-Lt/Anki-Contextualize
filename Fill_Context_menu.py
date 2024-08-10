@@ -35,7 +35,7 @@ def contextualize(browser):
                 unique_fields.append(field)
 
     # Settings Dialog
-    dialog = Dialogs.FillChoices(['—'] + unique_fields)
+    dialog = Dialogs.FillContext(['—'] + unique_fields)
     if not dialog.exec():
         return
     word_field, word_conj_field, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()

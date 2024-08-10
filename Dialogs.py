@@ -9,7 +9,7 @@ def sentence_field_index(array):
             return i
     return len(array)-1
 
-class FillChoices(QDialog):
+class FillContext(QDialog):
     def __init__(self, notes_fields):
         super().__init__()
 
