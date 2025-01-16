@@ -44,21 +44,29 @@ def contextualize(browser):
     screenshots_meta = set()
     counter = 0
     for note in notes:
-        word_conjugations = {note[word_field]} # wordConjugations(note[word_field], note[word_conj_field], "", "")
-        searchResult = subtitleWordSearch(word_conjugations, sentence_db)   
+
+        # Search
+        searchResult = {}
+        if sentence_field in note.keys() and sentence_field != '—' and bool(note[sentence_field]):
+            searchResult = subtitleWordSearch({note[sentence_field]}, sentence_db)
+        if not searchResult:
+            word_conjugations = {note[word_field]} # wordConjugations(note[word_field], note[word_conj_field], "", "")
+            searchResult = subtitleWordSearch(word_conjugations, sentence_db)   
         if not searchResult:
             continue
-        if sentence_field != '—':
+
+        # Field contents
+        if sentence_field in note.keys() and sentence_field != '—':
             note[sentence_field] = formatSampleSentence(searchResult['word_form'], searchResult['sentence'])
-        if bool(videoFile_path) and screenshot_field != '—':
+        if bool(videoFile_path) and screenshot_field in note.keys() and screenshot_field != '—':
             ts = Timestamps.average(searchResult['t1'], searchResult['t2'])
             screenshotFilename = Screenshots.composeName(videoFile_path, ts)
             screenshots_meta.add((('ts', ts), ('filename', screenshotFilename)))
             note[screenshot_field] = f"<img src='{screenshotFilename}'/>"
-        if source_field != '—':
+        if source_field in note.keys() and source_field != '—':
             note[source_field] = source_text
-        counter += 1
 
+        counter += 1
         mw.col.update_note(note)
         # editor.set_note(editor.note) #?refresh
 
