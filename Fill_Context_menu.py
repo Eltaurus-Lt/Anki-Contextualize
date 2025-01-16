@@ -13,7 +13,7 @@ def subtitleWordSearch(word_forms, sentence_db):
     for entry in sentence_db:
         for word in word_forms:
             if word in entry['sentence']:
-                return {'ts': entry['ts'], 'sentence': entry['sentence'], 'word form': word}
+                return {'t1': entry['t1'], 't2': entry['t2'], 'sentence': entry['sentence'], 'word_form': word}
 
     return {}
 
@@ -32,49 +32,48 @@ def contextualize(browser):
                 unique_fields.append(field)
 
     # Settings Dialog
-    dialog = Dialogs.FillContext(['—'] + unique_fields)
+    dialog = Dialogs.FillContext(unique_fields)
     if not dialog.exec():
         return
     word_field, word_conj_field, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
-    
     # tooltip(f'{sentence_field}, {screenshot_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
 
     sentence_db = Subtitles.parse(subtitleFile_path)
-
-    tooltip(sentence_db)
-
-    ## search test
-    # test_db = [
-    #     {'ts': "00:00:11.38", 'sentence': "なにか食べましょうか"},
-    #     {'ts': "00:04:08.15", 'sentence': "ピクニックに行く"},
-    #     {'ts': "00:16:23.42", 'sentence': "ゆくえふめい"},
-    #     ]
-    # test_searchResult = subtitleWordSearch({"行く", "いく", "ゆく"}, test_db)
-    # tooltip(test_searchResult)
+    # tooltip(sentence_db)
 
     screenshots_meta = set()
     counter = 0
     for note in notes:
-# add checks for non-existing fields and empty search results
-        # word_conjugations = wordConjugations(note[word_field], note[word_conj_field], "", "")
-        # searchResult = subtitleWordSearch(word_conjugations, sentence_db)
-        # note[sentence_field] = formatSampleSentence(searchResult['word_form'], searchResult['sentence'])
-        # screenshotFilename = Screenshots.composeName(videoFile_path, searchResult['ts'])
-        # screenshots_meta.add({'ts': searchResult['ts'], 'filename': screenshotFilename})
-        # note[screenshot_field] = f"<img src='{screenshotFilename}'/>"
-        # note[source_field] = source_text
+
+        # Search
+        searchResult = {}
+        if sentence_field in note.keys() and sentence_field != '—' and bool(note[sentence_field]):
+            searchResult = subtitleWordSearch({note[sentence_field]}, sentence_db)
+        if not searchResult:
+            word_conjugations = {note[word_field]} # wordConjugations(note[word_field], note[word_conj_field], "", "")
+            searchResult = subtitleWordSearch(word_conjugations, sentence_db)   
+        if not searchResult:
+            continue
+
+        # Field contents
+        if sentence_field in note.keys() and sentence_field != '—':
+            note[sentence_field] = formatSampleSentence(searchResult['word_form'], searchResult['sentence'])
+        if bool(videoFile_path) and screenshot_field in note.keys() and screenshot_field != '—':
+            ts = Timestamps.average(searchResult['t1'], searchResult['t2'])
+            screenshotFilename = Screenshots.composeName(videoFile_path, ts)
+            screenshots_meta.add((('ts', ts), ('filename', screenshotFilename)))
+            note[screenshot_field] = f"<img src='{screenshotFilename}'/>"
+        if source_field in note.keys() and source_field != '—':
+            note[source_field] = source_text
+
         counter += 1
-#<- save note
+        mw.col.update_note(note)
+        # editor.set_note(editor.note) #?refresh
 
-    # Make screenshots
+    # Make screenshot files
     for meta in screenshots_meta:
-        Screenshots.save(meta['ts'], meta['filename'], videoFile_path)
-
-    ## screenshot test
-    # test_ts = "00:16:24.00"
-    # test_videoFile_path = "D:\Lang\日本語\聴解\shirokumakafe\Shirokuma Cafe e04.mkv"
-    # Screenshots.save(test_ts, Screenshots.composeName(test_videoFile_path, test_ts), test_videoFile_path)
-    
+        meta_dict = dict(meta)
+        Screenshots.save(meta_dict['ts'], meta_dict['filename'], videoFile_path)    
 
 
 def choices_context_menu(browser):

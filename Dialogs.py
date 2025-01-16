@@ -1,32 +1,37 @@
 from aqt.qt import *
+Sentence_candidates = {"sentence", "sample sentence", "source sentence", "例文"}
+Screenshot_candidates = {"screenshot", "image", "絵"}
 
-def is_sentence_string(string):
-    return ("sentence" in string or "Sentence" in string)
-
-def sentence_field_index(array):
-    for i, string in enumerate(array):
-        if is_sentence_string(string):
+def indexFromCandidates(fields, candidates):
+    for i, field in enumerate(fields):
+        if field.lower() in candidates:
             return i
-    return len(array)-1
+    return len(fields)-1
 
 class FillContext(QDialog):
     def __init__(self, notes_fields):
         super().__init__()
 
+        notes_fields_ = ['—'] + notes_fields
+
         # Create widgets
+        self.word_label = QLabel("Word field")
+        self.word_field = QComboBox()
+        self.word_field.addItems(notes_fields)
+
         self.sentence_label = QLabel("Sample Sentence field")
         self.sentence_field = QComboBox()
-        self.sentence_field.addItems(notes_fields)
-        self.sentence_field.setCurrentIndex(sentence_field_index(notes_fields))
+        self.sentence_field.addItems(notes_fields_)
+        self.sentence_field.setCurrentIndex(indexFromCandidates(notes_fields_, Sentence_candidates))
 
         self.screenshot_label = QLabel("Screenshot field")
         self.screenshot_field = QComboBox()
-        self.screenshot_field.addItems(notes_fields)
-        # self.screenshot_field.setCurrentIndex(sentence_field_index(notes_fields))
+        self.screenshot_field.addItems(notes_fields_)
+        self.screenshot_field.setCurrentIndex(indexFromCandidates(notes_fields_, Screenshot_candidates))
 
         self.source_field_label = QLabel("Source field")
         self.source_field = QComboBox()
-        self.source_field.addItems(notes_fields)
+        self.source_field.addItems(notes_fields_)
 
         self.source_label = QLabel("Source")
         self.source_text = QLineEdit()
@@ -52,6 +57,8 @@ class FillContext(QDialog):
         font_size = int(self.source_label.font().pointSize())
 
         layout = QVBoxLayout()
+        layout.addWidget(self.word_label)
+        layout.addWidget(self.word_field)
         layout.addWidget(self.sentence_label)
         layout.addWidget(self.sentence_field)
         layout.addWidget(self.screenshot_label)
@@ -97,7 +104,7 @@ class FillContext(QDialog):
         self.button_cancel.clicked.connect(self.reject)
 
     def get_selected_options(self):
-        return _, _, self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text(), self.videoFile_path.text(), self.subtitleFile_path.text()
+        return self.word_field.currentText(), _, self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text(), self.videoFile_path.text(), self.subtitleFile_path.text()
 
     def selectVideoFile(self):
         file_dialog = QFileDialog(self)

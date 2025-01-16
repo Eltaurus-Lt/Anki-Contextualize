@@ -1,11 +1,15 @@
 import os, re
+from aqt.utils import tooltip
 Encodings = ['ascii', 'utf-8', 'iso-8859-1', 'latin-1']
 
 def parse(filepath):
 
     # Open the file in binary mode
-    with open(filepath, 'rb') as file:
-        raw_data = file.read()
+    try:
+        with open(filepath, 'rb') as file:
+            raw_data = file.read()
+    except FileNotFound:
+        tooltip(f"Subtitle file does not exist ('filepath')")
 
     # Guess the encoding by trying different encodings
     for tryEncoding in Encodings:
