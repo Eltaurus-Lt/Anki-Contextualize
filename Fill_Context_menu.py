@@ -68,7 +68,9 @@ def contextualize(browser):
 
         counter += 1
         mw.col.update_note(note)
-        # editor.set_note(editor.note) #?refresh
+        # if len(notes) == 1:
+            # editor.set_note(editor.note) #refresh editor view
+
 
     # Make screenshot files
     for meta in screenshots_meta:
