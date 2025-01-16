@@ -1,6 +1,6 @@
 import os, re
 from aqt.utils import tooltip
-Encodings = ['ascii', 'utf-8', 'iso-8859-1', 'latin-1']
+Encoding_candidates = ['ascii', 'utf-8', 'iso-8859-1', 'latin-1']
 
 def parse(filepath):
 
@@ -12,11 +12,11 @@ def parse(filepath):
         tooltip(f"Subtitle file does not exist ('filepath')")
 
     # Guess the encoding by trying different encodings
-    for tryEncoding in Encodings:
+    for candidate in Encoding_candidates:
         try:
             # Decode the raw data
-            subText = raw_data.decode(tryEncoding)
-            encoding = tryEncoding
+            subText = raw_data.decode(candidate)
+            encoding = candidate
             break
         except (UnicodeDecodeError, LookupError):
             continue
