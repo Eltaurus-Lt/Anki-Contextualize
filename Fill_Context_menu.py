@@ -1,6 +1,7 @@
 from . import Dialogs, Screenshots, Timestamps, Subtitles
 from aqt import mw, gui_hooks
 from aqt.qt import *
+from aqt.progress import ProgressManager
 from aqt.utils import tooltip
 import os
 
@@ -42,8 +43,10 @@ def contextualize(browser):
     # tooltip(sentence_db)
 
     screenshots_meta = set()
+    progress_manager = ProgressManager(mw)
+    # progress_manager.start(label = "Filling-in Notes", max = len(notes), immediate = True)
     counter = 0
-    for note in notes:
+    for note_n, note in enumerate(notes):
 
         # Search
         searchResult = {}
@@ -52,6 +55,7 @@ def contextualize(browser):
         if not searchResult:
             word_conjugations = {note[word_field]} # wordConjugations(note[word_field], note[word_conj_field], "", "")
             searchResult = subtitleWordSearch(word_conjugations, sentence_db)   
+        # progress_manager.update(label = "Filling-in Notes", value = note_n)
         if not searchResult:
             continue
 
@@ -71,12 +75,15 @@ def contextualize(browser):
         # if len(notes) == 1:
             # editor.set_note(editor.note) #refresh editor view
 
+    progress_manager.start(label = "Making screenshots", max = len(screenshots_meta), immediate = True)
 
     # Make screenshot files
-    for meta in screenshots_meta:
+    for scr_n, meta in enumerate(screenshots_meta):
         meta_dict = dict(meta)
         Screenshots.save(meta_dict['ts'], meta_dict['filename'], videoFile_path)    
+        progress_manager.update(value = scr_n)
 
+    progress_manager.finish();
 
 def choices_context_menu(browser):
     menuC = browser.form.menu_Cards
