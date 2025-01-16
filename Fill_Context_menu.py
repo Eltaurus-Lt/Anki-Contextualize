@@ -13,7 +13,7 @@ def subtitleWordSearch(word_forms, sentence_db):
     for entry in sentence_db:
         for word in word_forms:
             if word in entry['sentence']:
-                return {'ts': entry['ts'], 'sentence': entry['sentence'], 'word form': word}
+                return {'t1': entry['t1'], 't2': entry['t2'], 'sentence': entry['sentence'], 'word form': word}
 
     return {}
 
@@ -36,28 +36,18 @@ def contextualize(browser):
     if not dialog.exec():
         return
     word_field, word_conj_field, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
-    
     # tooltip(f'{sentence_field}, {screenshot_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
 
     sentence_db = Subtitles.parse(subtitleFile_path)
-
-    tooltip(sentence_db)
-
-    ## search test
-    # test_db = [
-    #     {'ts': "00:00:11.38", 'sentence': "なにか食べましょうか"},
-    #     {'ts': "00:04:08.15", 'sentence': "ピクニックに行く"},
-    #     {'ts': "00:16:23.42", 'sentence': "ゆくえふめい"},
-    #     ]
-    # test_searchResult = subtitleWordSearch({"行く", "いく", "ゆく"}, test_db)
-    # tooltip(test_searchResult)
+    # tooltip(sentence_db)
 
     screenshots_meta = set()
     counter = 0
     for note in notes:
 # add checks for non-existing fields and empty search results
-        # word_conjugations = wordConjugations(note[word_field], note[word_conj_field], "", "")
-        # searchResult = subtitleWordSearch(word_conjugations, sentence_db)
+        word_conjugations = {note[word_field]} # wordConjugations(note[word_field], note[word_conj_field], "", "")
+        searchResult = subtitleWordSearch(word_conjugations, sentence_db)
+        tooltip(searchResult)        
         # note[sentence_field] = formatSampleSentence(searchResult['word_form'], searchResult['sentence'])
         # screenshotFilename = Screenshots.composeName(videoFile_path, searchResult['ts'])
         # screenshots_meta.add({'ts': searchResult['ts'], 'filename': screenshotFilename})

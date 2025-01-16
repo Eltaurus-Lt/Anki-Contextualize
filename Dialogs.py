@@ -14,6 +14,11 @@ class FillContext(QDialog):
         super().__init__()
 
         # Create widgets
+        self.word_label = QLabel("Word field")
+        self.word_field = QComboBox()
+        self.word_field.addItems(notes_fields)
+        # self.word_field.setCurrentIndex(sentence_field_index(notes_fields))
+
         self.sentence_label = QLabel("Sample Sentence field")
         self.sentence_field = QComboBox()
         self.sentence_field.addItems(notes_fields)
@@ -52,6 +57,8 @@ class FillContext(QDialog):
         font_size = int(self.source_label.font().pointSize())
 
         layout = QVBoxLayout()
+        layout.addWidget(self.word_label)
+        layout.addWidget(self.word_field)
         layout.addWidget(self.sentence_label)
         layout.addWidget(self.sentence_field)
         layout.addWidget(self.screenshot_label)
@@ -97,7 +104,7 @@ class FillContext(QDialog):
         self.button_cancel.clicked.connect(self.reject)
 
     def get_selected_options(self):
-        return _, _, self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text(), self.videoFile_path.text(), self.subtitleFile_path.text()
+        return self.word_field.currentText(), _, self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text(), self.videoFile_path.text(), self.subtitleFile_path.text()
 
     def selectVideoFile(self):
         file_dialog = QFileDialog(self)
