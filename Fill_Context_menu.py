@@ -1,11 +1,8 @@
-from . import Dialogs, Screenshots, Timestamps
+from . import Dialogs, Screenshots, Timestamps, Subtitles
 from aqt import mw, gui_hooks
 from aqt.qt import *
 from aqt.utils import tooltip
 import os
-
-def subtitleParse(filepath):
-    return [{'ts': "00:00:11.38", 'sentence': "ピクニックに行く"}]
 
 def wordConjugations(word, word_alts, pos, dic):
     # generate possible word forms based on part of speech (pos) and rules from referenced dictionary file
@@ -40,9 +37,11 @@ def contextualize(browser):
         return
     word_field, word_conj_field, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
     
-    tooltip(f'{sentence_field}, {screenshot_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
+    # tooltip(f'{sentence_field}, {screenshot_field}, {source_field}, {source_text}, {videoFile_path}, {subtitleFile_path}')
 
-    sentence_db = subtitleParse(subtitleFile_path)
+    sentence_db = Subtitles.parse(subtitleFile_path)
+
+    tooltip(sentence_db)
 
     ## search test
     # test_db = [
