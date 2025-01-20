@@ -30,8 +30,7 @@ def contextualize(browser):
     dialog = Dialogs.FillContext(unique_fields)
     if not dialog.exec():
         return
-    word_field, conj_pack, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
-    
+    word_field, alts_field, conj_pack, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
 
     sentence_db = Subtitles.parse(subtitleFile_path)
     # tooltip(sentence_db)
@@ -43,7 +42,8 @@ def contextualize(browser):
     for note_n, note in enumerate(notes):
         # Source field
         if source_field in note.keys() and source_field != '—':
-            note[source_field] = source_text        
+            note[source_field] = source_text
+            mw.col.update_note(note)
 
         # Search
         searchResult = {}

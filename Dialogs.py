@@ -26,42 +26,44 @@ class FillContext(QDialog):
         notes_fields_ = ['—'] + notes_fields
 
         # Create widgets
-        self.word_label = QLabel("Word field")
         self.word_field = QComboBox()
         self.word_field.addItems(notes_fields)
 
-        self.lang_label = QLabel("Conjugation Pack")
+        self.alts_field = QComboBox()
+        self.alts_field.addItems(notes_fields_)
+
         self.lang_pack = QComboBox()
         self.lang_pack.addItems(['—'] + conjugationPacks())
 
-        self.sentence_label = QLabel("Sample Sentence field")
         self.sentence_field = QComboBox()
         self.sentence_field.addItems(notes_fields_)
         self.sentence_field.setCurrentIndex(indexFromCandidates(notes_fields_, Sentence_candidates))
 
-        self.screenshot_label = QLabel("Screenshot field")
         self.screenshot_field = QComboBox()
         self.screenshot_field.addItems(notes_fields_)
         self.screenshot_field.setCurrentIndex(indexFromCandidates(notes_fields_, Screenshot_candidates))
 
-        self.source_field_label = QLabel("Source field")
         self.source_field = QComboBox()
         self.source_field.addItems(notes_fields_)
 
-        self.source_label = QLabel("Source")
-        self.source_text = QLineEdit()
-        self.source_text.setMaxLength(255)
+        self.source_text = QTextEdit()
+        font_metrics = QFontMetrics(self.source_text.font())
+        line_height = font_metrics.lineSpacing()
+        self.source_text.setFixedHeight(5 * line_height)
+        # self.source_text.setMinimumHeight(line_height)
+        # self.source_text.setMaximumHeight(5 * line_height)
+        # self.source_text.resize(self.source_text.width(), 3 * line_height)
+        # self.source_text.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding))
+        # self.source_text.setMaxLength(255)
 
         self.button_ok = QPushButton("OK")
         self.button_cancel = QPushButton("Cancel")
 
-        self.videoFile_label = QLabel("Video")
         self.videoFile_path = QLineEdit("")
         self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.videoFile_button = QPushButton("Select File", self)
         self.videoFile_button.clicked.connect(self.selectVideoFile)
 
-        self.subtitleFile_label = QLabel("Subtitles")
         self.subtitleFile_path = QLineEdit("")
         self.subtitleFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.subtitleFile_button = QPushButton("Select File", self)
@@ -69,37 +71,57 @@ class FillContext(QDialog):
 
 
         # Create layout
-        font_size = int(self.source_label.font().pointSize())
-
         layout = QVBoxLayout()
-        layout.addWidget(self.word_label)
-        layout.addWidget(self.word_field)
-        layout.addWidget(self.lang_label)
-        layout.addWidget(self.lang_pack)
-        layout.addWidget(self.sentence_label)
-        layout.addWidget(self.sentence_field)
-        layout.addWidget(self.screenshot_label)
-        layout.addWidget(self.screenshot_field)
-        layout.addWidget(self.source_field_label)
-        layout.addWidget(self.source_field)
-        layout.addWidget(self.source_label)
-        layout.addWidget(self.source_text)
 
-        layout.addSpacing(2 * font_size)
+        word_layout = QVBoxLayout()
+        word_group = QGroupBox("Word")
+        word_group.setLayout(word_layout)
+        layout.addWidget(word_group)
 
-        layout.addWidget(self.videoFile_label)
+        word_layout.addWidget(QLabel("Main field"))
+        word_layout.addWidget(self.word_field)
+        word_layout.addWidget(QLabel("Alts field"))
+        word_layout.addWidget(self.alts_field)
+        word_layout.addWidget(QLabel("Conjugation Pack"))
+        word_layout.addWidget(self.lang_pack)
+
+
+        context_layout = QVBoxLayout()
+        context_group = QGroupBox("Context fields")
+        context_group.setLayout(context_layout)
+        layout.addWidget(context_group)
+
+        context_layout.addWidget(QLabel("Sample Sentence"))
+        context_layout.addWidget(self.sentence_field)
+        context_layout.addWidget(QLabel("Screenshot"))
+        context_layout.addWidget(self.screenshot_field)
+        context_layout.addWidget(QLabel("Source field"))
+        context_layout.addWidget(self.source_field)
+
+
+        source_layout = QVBoxLayout()
+        source_group = QGroupBox("Source")
+        source_group.setLayout(source_layout)
+        layout.addWidget(source_group)
+
+        source_layout.addWidget(QLabel("Video"))
         videoFile_layout = QHBoxLayout()
         videoFile_layout.addWidget(self.videoFile_path)
         videoFile_layout.addWidget(self.videoFile_button)
-        layout.addLayout(videoFile_layout)
+        source_layout.addLayout(videoFile_layout)
 
-        layout.addWidget(self.subtitleFile_label)
+        source_layout.addWidget(QLabel("Subtitles"))
         subtitleFile_layout = QHBoxLayout()
         subtitleFile_layout.addWidget(self.subtitleFile_path)
         subtitleFile_layout.addWidget(self.subtitleFile_button)
-        layout.addLayout(subtitleFile_layout)
+        source_layout.addLayout(subtitleFile_layout)
 
-        layout.addSpacing(2 * font_size)
+        source_layout.addWidget(QLabel("Text description"))
+        source_layout.addWidget(self.source_text)
+        # tags
+
+
+        layout.addSpacing(2 * line_height)
         layout.addStretch()
   
         button_layout = QHBoxLayout()
@@ -109,9 +131,9 @@ class FillContext(QDialog):
         layout.addLayout(button_layout)
 
         # Set size limits
-        self.setMinimumWidth(30 * font_size)
-        self.setMaximumHeight(25 * font_size)
-        self.setMaximumWidth(45 * font_size)
+        self.setMinimumWidth(30 * line_height)
+        self.setMaximumHeight(25 * line_height)
+        self.setMaximumWidth(45 * line_height)
 
         # Set layout
         self.setLayout(layout)
@@ -121,7 +143,7 @@ class FillContext(QDialog):
         self.button_cancel.clicked.connect(self.reject)
 
     def get_selected_options(self):
-        return self.word_field.currentText(), self.lang_pack.currentText(), self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text(), self.videoFile_path.text(), self.subtitleFile_path.text()
+        return self.word_field.currentText(), self.alts_field.currentText(), self.lang_pack.currentText(), self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.toPlainText(), self.videoFile_path.text(), self.subtitleFile_path.text()
 
     def selectVideoFile(self):
         file_dialog = QFileDialog(self)
