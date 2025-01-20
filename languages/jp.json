@@ -1,45 +1,183 @@
-{
-  "v": {
-	'v5u': {},
-	'v5g': {},
-	'v5t': {},
-	'v5s': {},
-	'v5m': ["_む", {
-		"a-stem": "_ま",
-		"i-stem": "_み",
-		"imper/hyp": "_め",
-		"vol": "_もう",
-		"pot": "_める",
-		"past": "_んだ",
-		"-te": "_んで"
-		}],
-	'v5b': {},
-	'v5k': {},
-	'v5k-s': {}, 
-	'v5r': {},
-	'v5aru': {},
+[
+	{
+		"PoS": "exclusions",
+		"forms": [
+			{
+				"dict": "する",
+				"conjs": [
+					{"label": "past", "conj": "した"},
+					{"label": "-te", "conj": "して"},
 
-	'v1': ["_る", {
-		"-te": "_て",
-		"past": "_た",
-		"stem🤔": "_"
-		}],
-	'v2g-k': [
+					{"label": "imper/hyp", "conj": "しろ"},
+					{"label": "pot", "conj": "できる"},
+					{"label": "vol", "conj": "しよう"},
+
+					{"label": "stem", "conj": "し"},
+					{"label": "a-stem", "conj": "さ"}
+				]
+			},
+			{
+				"dict": "来る",
+				"conjs": [
+					{"label": "past", "conj": "来た"},
+					{"label": "-te", "conj": "来て"},
+
+					{"label": "imper/hyp", "conj": "来い"},
+					{"label": "vol", "conj": "来よう"},
+
+					{"label": "stem", "conj": "来"}
+				]
+			},
+			{
+				"dict": "行く",
+				"conjs": [
+					{"label": "past", "conj": "行った"},
+					{"label": "-te", "conj": "行って"}
+				]
+			},
+
+
+			{
+				"dict": "いい",
+				"conjs": [
+					{"label": "adv", "conj": "よく"},
+					{"label": "past", "conj": "よかった"},
+					{"label": "cond", "conj": "よければ"},
+					{"label": "vol", "conj": "よかろう"}
+				]
+			},
 		]
-	'vs': [],
-	'vk': []
+	},
+
+
+
+	{
+		"PoS": "v1",
+		"forms": [
+			{
+				"dict": "_れる",
+				"conjs": [
+					{"label": "-te", "conj": "_れて"},
+					{"label": "past", "conj": "_れた"},
+
+					{"label": "stem", "conj": "_れ"}
+				]
+			},
+			{
+				"dict": "_める",
+				"conjs": [
+					{"label": "-te", "conj": "_めて"},
+					{"label": "past", "conj": "_めた"},
+
+					{"label": "stem", "conj": "_め"}
+				]
+			},
+			{
+				"dict": "_みる",
+				"conjs": [
+					{"label": "-te", "conj": "_みて"},
+					{"label": "past", "conj": "_みた"},
+
+					{"label": "stem", "conj": "_み"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5u",
+		"forms": []
+	},
+	{
+		"PoS": "v5g",
+		"forms": []
+	},
+	{
+		"PoS": "v5t",
+		"forms": []
+	},
+	{
+		"PoS": "v5s",
+		"forms": []
+	},
+	{
+		"PoS": "v5m",
+		"forms": [
+			{
+				"dict": "_む",
+				"conjs": [
+					{"label": "-te", "conj": "_んで"},
+					{"label": "past", "conj": "_んだ"},
+
+					{"label": "a-stem", "conj": "_ま"},
+					{"label": "i-stem", "conj": "_み"},
+
+					{"label": "imper/hyp", "conj": "_め"},
+					{"label": "vol", "conj": "_もう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5b",
+		"forms": []
+	},
+	{
+		"PoS": "v5k",
+		"forms": []
+	},
+	{
+		"PoS": "v5k-s",
+		"forms": []
+	},
+	{
+		"PoS": "v5r",
+		"forms": [
+			{
+				"dict": "_る",
+				"conjs": [
+					{"label": "-te", "conj": "_って"},
+					{"label": "past", "conj": "_った"},
+
+					{"label": "a-stem", "conj": "_ら"},
+					{"label": "i-stem", "conj": "_り"},
+
+					{"label": "imper/hyp", "conj": "_れ"},
+					{"label": "vol", "conj": "_ろう"}	
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5aru",
+		"forms": []
+	},
+	{
+		"PoS": "v2g-k",
+		"forms": []
+	},
+	{
+		"PoS": "vs",
+		"forms": []
+	},
+	{
+		"PoS": "vk",
+		"forms": []
+	},
+
+
+
+	{
+		"PoS": "adj-i",
+		"forms": [
+			{
+				"dict": "_い",
+				"conjs": [
+					{"label": "adv", "conj": "_く"},
+					{"label": "past", "conj": "_かった"},
+					{"label": "cond", "conj": "_ければ"},
+					{"label": "vol", "conj": "_かろう"}
+				]
+			}
+		]
 	}
-  "adj": {
-	'adj-i': ["_い", {
-			"adv": "_く",
-			"past": "_かった",
-			"cond": "_ければ"
-			}]
-        }
-  "exc": {
-	行く: {行って, 行った}
-	する
-	来る
-	いい: {よく}
-  }
-}
+]
