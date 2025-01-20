@@ -15,6 +15,10 @@ def indexFromCandidates(fields, candidates):
             return i
     return len(fields)-1
 
+def conjugationPacks():
+    files = os.listdir(os.path.join(os.path.dirname(__file__), 'ConjugationPacks'))
+    return [os.path.splitext(file)[0] for file in files if file.endswith('.json')]
+
 class FillContext(QDialog):
     def __init__(self, notes_fields):
         super().__init__()
@@ -25,6 +29,10 @@ class FillContext(QDialog):
         self.word_label = QLabel("Word field")
         self.word_field = QComboBox()
         self.word_field.addItems(notes_fields)
+
+        self.lang_label = QLabel("Conjugation Pack")
+        self.lang_pack = QComboBox()
+        self.lang_pack.addItems(['—'] + conjugationPacks())
 
         self.sentence_label = QLabel("Sample Sentence field")
         self.sentence_field = QComboBox()
@@ -66,6 +74,8 @@ class FillContext(QDialog):
         layout = QVBoxLayout()
         layout.addWidget(self.word_label)
         layout.addWidget(self.word_field)
+        layout.addWidget(self.lang_label)
+        layout.addWidget(self.lang_pack)
         layout.addWidget(self.sentence_label)
         layout.addWidget(self.sentence_field)
         layout.addWidget(self.screenshot_label)
@@ -111,7 +121,7 @@ class FillContext(QDialog):
         self.button_cancel.clicked.connect(self.reject)
 
     def get_selected_options(self):
-        return self.word_field.currentText(), _, self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text(), self.videoFile_path.text(), self.subtitleFile_path.text()
+        return self.word_field.currentText(), self.lang_pack.currentText(), self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.text(), self.videoFile_path.text(), self.subtitleFile_path.text()
 
     def selectVideoFile(self):
         file_dialog = QFileDialog(self)

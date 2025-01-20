@@ -1,4 +1,4 @@
-from . import Dialogs, Screenshots, Timestamps, Subtitles
+from . import Dialogs, Screenshots, Timestamps, Subtitles, Conjugations
 from aqt import mw, gui_hooks
 from aqt.qt import *
 from aqt.progress import ProgressManager

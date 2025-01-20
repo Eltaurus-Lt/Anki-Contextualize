@@ -1,6 +1,6 @@
 [
 	{
-		"PoS": "exclusions",
+		"PoS": "exception",
 		"forms": [
 			{
 				"dict": "する",
@@ -45,7 +45,7 @@
 					{"label": "cond", "conj": "よければ"},
 					{"label": "vol", "conj": "よかろう"}
 				]
-			},
+			}
 		]
 	},
 
