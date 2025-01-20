@@ -75,8 +75,8 @@ class FillContext(QDialog):
         # Create layout
         layout = QVBoxLayout()
 
-        word_layout = QVBoxLayout()
         word_group = QGroupBox("Word")
+        word_layout = QVBoxLayout()
         word_group.setLayout(word_layout)
         layout.addWidget(word_group)
 
@@ -88,8 +88,8 @@ class FillContext(QDialog):
         word_layout.addWidget(self.lang_pack)
 
 
-        context_layout = QVBoxLayout()
         context_group = QGroupBox("Context fields")
+        context_layout = QVBoxLayout()
         context_group.setLayout(context_layout)
         layout.addWidget(context_group)
 
@@ -101,8 +101,8 @@ class FillContext(QDialog):
         context_layout.addWidget(self.source_field)
 
 
-        source_layout = QVBoxLayout()
         source_group = QGroupBox("Source")
+        source_layout = QVBoxLayout()
         source_group.setLayout(source_layout)
         layout.addWidget(source_group)
 

@@ -3,7 +3,7 @@ from aqt import mw, gui_hooks
 from aqt.qt import *
 from aqt.progress import ProgressManager
 from aqt.utils import tooltip
-import os
+import os, re
 
 def subtitleWordSearch(word, sentence_db):
     for entry in sentence_db:
@@ -11,6 +11,27 @@ def subtitleWordSearch(word, sentence_db):
             return {'t1': entry['t1'], 't2': entry['t2'], 'sentence': entry['sentence'], 'word_form': word}
 
     return {}
+
+def subtitleConjugatedSearch(word, sentence_db, conj_pack, pos = ""):
+    # dict form
+    searchResult = subtitleWordSearch(word, sentence_db)
+    if searchResult:
+        return searchResult
+
+    # conj forms
+    if conj_pack == '—' or not bool(conj_pack):
+        return {}
+
+    # blind match
+    wordForms = Conjugations.conjugate(word, conj_pack) # add pos here if not empty for non-blind
+    for wordForm in wordForms:
+        for conj in wordForm['conjs']:
+            searchResult = subtitleWordSearch(conj, sentence_db)
+            if searchResult:
+                return searchResult
+
+    return {}
+                    
 
 def formatSampleSentence(word_form, sentence):
     return sentence
@@ -50,17 +71,14 @@ def contextualize(browser):
         ## based on predefined sentence or word-form
         if sentence_field in note.keys() and sentence_field != '—' and bool(note[sentence_field]):
             searchResult = subtitleWordSearch(note[sentence_field], sentence_db)
-        ## based on the original word form
+        ## based on the main word field
         if not searchResult:
-            searchResult = subtitleWordSearch(note[word_field], sentence_db)   
-        ## based on conjugations from the pack (blind match)
-        if not searchResult and conj_pack != '—' and bool(conj_pack):
-            wordForms = Conjugations.conjugate(note[word_field], conj_pack)
-            for wordForm in wordForms:
-                for conj in wordForm['conjs']:
-                    searchResult = subtitleWordSearch(conj, sentence_db)
-                    if searchResult:
-                        break
+            searchResult = subtitleConjugatedSearch(note[word_field], sentence_db, conj_pack)
+        ## based on the alts
+        if not searchResult and alts_field != '—' and bool(note[alts_field]):
+            alts = [alt.strip() for alt in re.split(r'[|｜]', note[alts_field])]
+            for alt in alts:
+                searchResult = subtitleConjugatedSearch(alt, sentence_db, conj_pack)
                 if searchResult:
                     break
         # progress_manager.update(label = "Filling-in Notes", value = note_n)
