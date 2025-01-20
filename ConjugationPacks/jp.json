@@ -91,6 +91,15 @@
 				]
 			},
 			{
+				"dict": "_きる",
+				"conjs": [
+					{"label": "-te", "conj": "_きて"},
+					{"label": "past", "conj": "_きた"},
+
+					{"label": "stem", "conj": "_き"}
+				]
+			},
+			{
 				"dict": "_げる",
 				"conjs": [
 					{"label": "-te", "conj": "_げて"},
@@ -125,7 +134,21 @@
 	},
 	{
 		"PoS": "v5t",
-		"forms": []
+		"forms": [
+			{
+				"dict": "_つ",
+				"conjs": [
+					{"label": "-te", "conj": "_って"},
+					{"label": "past", "conj": "_った"},
+
+					{"label": "a-stem/neg", "conj": "_た"},
+					{"label": "i-stem/conj", "conj": "_ち"},
+
+					{"label": "imp/hyp", "conj": "_て"},
+					{"label": "vol", "conj": "_とう"}
+				]
+			}
+		]
 	},
 	{
 		"PoS": "v5s",
@@ -169,7 +192,21 @@
 	},
 	{
 		"PoS": "v5k",
-		"forms": []
+		"forms": [
+			{
+				"dict": "_く",
+				"conjs": [
+					{"label": "-te", "conj": "_いて"},
+					{"label": "past", "conj": "_いた"},
+
+					{"label": "a-stem/neg", "conj": "_か"},
+					{"label": "i-stem/conj", "conj": "_き"},
+
+					{"label": "imp/hyp", "conj": "_け"},
+					{"label": "vol", "conj": "_こう"}
+				]
+			}
+		]
 	},
 	{
 		"PoS": "v5k-s",
