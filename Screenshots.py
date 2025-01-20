@@ -6,7 +6,7 @@ default_ext = "jpg"
 
 def composeName(source_filename, ts):
     basename, _ = os.path.splitext(os.path.basename(source_filename))
-    outputName = f'Contextualize_{basename}_{ts}.{default_ext}'.replace(":", ";")
+    outputName = f'Contextualize_{basename.replace(" ","")}_{ts}.{default_ext}'.replace(":", ";")
     return outputName
 
 def save(ts, saveas, videoSource):
