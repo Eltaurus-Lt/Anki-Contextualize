@@ -61,10 +61,6 @@ def contextualize(browser):
     # progress_manager.start(label = "Filling-in Notes", max = len(notes), immediate = True)
     counter = 0
     for note_n, note in enumerate(notes):
-        # Source field
-        if source_field in note.keys() and source_field != '—':
-            note[source_field] = source_text
-            mw.col.update_note(note)
 
         # Search
         searchResult = {}
@@ -93,6 +89,8 @@ def contextualize(browser):
             screenshotFilename = Screenshots.composeName(videoFile_path, ts)
             screenshots_meta.add((('ts', ts), ('filename', screenshotFilename)))
             note[screenshot_field] = f"<img src='{screenshotFilename}'/>"
+        if source_field in note.keys() and source_field != '—':
+            note[source_field] = source_text
 
         counter += 1
         mw.col.update_note(note)
