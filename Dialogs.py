@@ -2,6 +2,7 @@ import os
 from aqt.qt import *
 Sentence_candidates = {"sentence", "sample sentence", "source sentence", "例文"}
 Screenshot_candidates = {"screenshot", "image", "絵"}
+Source_candidates = {"source"}
 Sub_exts = ["srt", "sub", "ass", "stl"]
 Video_exts = ["mkv", "mp4", "avi"]
 Text_exts = ["txt"]
@@ -13,7 +14,7 @@ def indexFromCandidates(fields, candidates):
     for i, field in enumerate(fields):
         if field.lower() in candidates:
             return i
-    return len(fields)-1
+    return 0
 
 def conjugationPacks():
     files = os.listdir(os.path.join(os.path.dirname(__file__), 'ConjugationPacks'))
@@ -45,6 +46,7 @@ class FillContext(QDialog):
 
         self.source_field = QComboBox()
         self.source_field.addItems(notes_fields_)
+        self.source_field.setCurrentIndex(indexFromCandidates(notes_fields_, Source_candidates))
 
         self.source_text = QTextEdit()
         font_metrics = QFontMetrics(self.source_text.font())
@@ -60,12 +62,12 @@ class FillContext(QDialog):
         self.button_cancel = QPushButton("Cancel")
 
         self.videoFile_path = QLineEdit("")
-        self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
+        # self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.videoFile_button = QPushButton("Select File", self)
         self.videoFile_button.clicked.connect(self.selectVideoFile)
 
         self.subtitleFile_path = QLineEdit("")
-        self.subtitleFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
+        # self.subtitleFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.subtitleFile_button = QPushButton("Select File", self)
         self.subtitleFile_button.clicked.connect(self.selectSubtitleFile)
 
