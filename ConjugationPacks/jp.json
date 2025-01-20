@@ -55,6 +55,15 @@
 		"PoS": "v1",
 		"forms": [
 			{
+				"dict": "_える",
+				"conjs": [
+					{"label": "-te", "conj": "_えて"},
+					{"label": "past", "conj": "_えた"},
+
+					{"label": "stem", "conj": "_え"}
+				]
+			},
+			{
 				"dict": "_れる",
 				"conjs": [
 					{"label": "-te", "conj": "_れて"},
@@ -79,6 +88,24 @@
 					{"label": "past", "conj": "_みた"},
 
 					{"label": "stem", "conj": "_み"}
+				]
+			},	
+			{
+				"dict": "_てる",
+				"conjs": [
+					{"label": "-te", "conj": "_てて"},
+					{"label": "past", "conj": "_てた"},
+
+					{"label": "stem", "conj": "_て"}
+				]
+			},
+			{
+				"dict": "_じる",
+				"conjs": [
+					{"label": "-te", "conj": "_じて"},
+					{"label": "past", "conj": "_じた"},
+
+					{"label": "stem", "conj": "_じ"}
 				]
 			},
 			{
@@ -239,13 +266,44 @@
 		"PoS": "v2g-k",
 		"forms": []
 	},
+
+
+
 	{
 		"PoS": "vs",
-		"forms": []
+		"forms": [
+			{
+				"dict": "_する",
+				"conjs": [
+					{"label": "past", "conj": "_した"},
+					{"label": "-te", "conj": "_して"},
+
+					{"label": "imp/hyp", "conj": "_しろ"},
+					{"label": "pot", "conj": "_できる"},
+					{"label": "vol", "conj": "_しよう"},
+
+					{"label": "stem", "conj": "_し"},
+					{"label": "a-stem", "conj": "_さ"}
+				]
+			}
+		]
 	},
 	{
 		"PoS": "vk",
-		"forms": []
+		"forms": [
+			{
+				"dict": "_くる",
+				"conjs": [
+					{"label": "past", "conj": "_きた"},
+					{"label": "-te", "conj": "_きて"},
+
+					{"label": "imp/hyp", "conj": "_こい"},
+					{"label": "vol", "conj": "_こよう"},
+
+					{"label": "stem", "conj": "_き"}
+				]
+			}
+		]
 	},
 
 
