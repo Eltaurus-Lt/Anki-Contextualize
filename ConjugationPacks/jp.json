@@ -8,7 +8,7 @@
 					{"label": "past", "conj": "した"},
 					{"label": "-te", "conj": "して"},
 
-					{"label": "imper/hyp", "conj": "しろ"},
+					{"label": "imp/hyp", "conj": "しろ"},
 					{"label": "pot", "conj": "できる"},
 					{"label": "vol", "conj": "しよう"},
 
@@ -22,7 +22,7 @@
 					{"label": "past", "conj": "来た"},
 					{"label": "-te", "conj": "来て"},
 
-					{"label": "imper/hyp", "conj": "来い"},
+					{"label": "imp/hyp", "conj": "来い"},
 					{"label": "vol", "conj": "来よう"},
 
 					{"label": "stem", "conj": "来"}
@@ -80,12 +80,44 @@
 
 					{"label": "stem", "conj": "_み"}
 				]
+			},
+			{
+				"dict": "_せる",
+				"conjs": [
+					{"label": "-te", "conj": "_せて"},
+					{"label": "past", "conj": "_せた"},
+
+					{"label": "stem", "conj": "_せ"}
+				]
+			},
+			{
+				"dict": "_げる",
+				"conjs": [
+					{"label": "-te", "conj": "_げて"},
+					{"label": "past", "conj": "_げた"},
+
+					{"label": "stem", "conj": "_げ"}
+				]
 			}
 		]
 	},
 	{
 		"PoS": "v5u",
-		"forms": []
+		"forms": [
+			{
+				"dict": "_う",
+				"conjs": [
+					{"label": "-te", "conj": "_って"},
+					{"label": "past", "conj": "_った"},
+
+					{"label": "a-stem/neg", "conj": "_わ"},
+					{"label": "i-stem/conj", "conj": "_い"},
+
+					{"label": "imp/hyp", "conj": "_え"},
+					{"label": "vol", "conj": "_おう"}
+				]
+			}
+		]
 	},
 	{
 		"PoS": "v5g",
@@ -97,7 +129,21 @@
 	},
 	{
 		"PoS": "v5s",
-		"forms": []
+		"forms": [
+			{
+				"dict": "_す",
+				"conjs": [
+					{"label": "-te", "conj": "_して"},
+					{"label": "past", "conj": "_した"},
+
+					{"label": "a-stem/neg", "conj": "_さ"},
+					{"label": "i-stem/conj", "conj": "_し"},
+
+					{"label": "imp/hyp", "conj": "_せ"},
+					{"label": "vol", "conj": "_そう"}
+				]
+			}
+		]
 	},
 	{
 		"PoS": "v5m",
@@ -108,10 +154,10 @@
 					{"label": "-te", "conj": "_んで"},
 					{"label": "past", "conj": "_んだ"},
 
-					{"label": "a-stem", "conj": "_ま"},
-					{"label": "i-stem", "conj": "_み"},
+					{"label": "a-stem/neg", "conj": "_ま"},
+					{"label": "i-stem/conj", "conj": "_み"},
 
-					{"label": "imper/hyp", "conj": "_め"},
+					{"label": "imp/hyp", "conj": "_め"},
 					{"label": "vol", "conj": "_もう"}
 				]
 			}
@@ -136,12 +182,13 @@
 				"dict": "_る",
 				"conjs": [
 					{"label": "-te", "conj": "_って"},
+					{"label": "-tyau", "conj": "_っちゃ"},
 					{"label": "past", "conj": "_った"},
 
-					{"label": "a-stem", "conj": "_ら"},
-					{"label": "i-stem", "conj": "_り"},
+					{"label": "a-stem/neg", "conj": "_ら"},
+					{"label": "i-stem/conj", "conj": "_り"},
 
-					{"label": "imper/hyp", "conj": "_れ"},
+					{"label": "imp/hyp", "conj": "_れ"},
 					{"label": "vol", "conj": "_ろう"}	
 				]
 			}
