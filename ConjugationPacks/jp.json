@@ -321,5 +321,20 @@
 				]
 			}
 		]
+	},
+
+	{
+		"PoS": "v1",
+		"forms": [
+			{
+				"dict": "_る",
+				"conjs": [
+					{"label": "-te", "conj": "_て"},
+					{"label": "past", "conj": "_た"},
+
+					{"label": "stem", "conj": "_"}
+				]
+			}
+		]
 	}
 ]

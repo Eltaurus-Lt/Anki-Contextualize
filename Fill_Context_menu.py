@@ -72,7 +72,7 @@ def contextualize(browser):
             searchResult = subtitleConjugatedSearch(note[word_field], sentence_db, conj_pack)
         ## based on the alts
         if not searchResult and alts_field != '—' and bool(note[alts_field]):
-            alts = [alt.strip() for alt in re.split(r'[|｜]', note[alts_field])]
+            alts = [alt.replace("&nbsp;", " ").strip() for alt in re.split(r'[|｜]', note[alts_field])]
             for alt in alts:
                 searchResult = subtitleConjugatedSearch(alt, sentence_db, conj_pack)
                 if searchResult:
