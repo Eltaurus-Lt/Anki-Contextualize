@@ -1,5 +1,5 @@
 import os, re
-from aqt.utils import tooltip
+# from aqt.utils import tooltip
 Encoding_candidates = ['ascii', 'utf-8', 'iso-8859-1', 'latin-1']
 
 def parse(filepath):
@@ -27,8 +27,11 @@ def parse(filepath):
         raise ValueError("Unable to decode the file with any common encoding")
 
     # print(encoding)
+    # print(subText)
 
     extension = filepath.split('.')[-1]
+
+    subText = subText.replace("\r\n","\n").replace("\r","\n")
 
     if extension == 'ass':
         return assParse(subText)
@@ -42,10 +45,10 @@ def assParse(subText):
     lines = subText.splitlines()
     sentence_db = []
 
-    assPattern = re.compile(r'Dialogue: \d+,(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.+)')
+    pattern = re.compile(r'Dialogue: \d+,(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.+)')
 
     for line in lines:
-        match = assPattern.match(line)
+        match = pattern.match(line)
         if match:
             t1 = match.group(1)
             t2 = match.group(2)
@@ -55,7 +58,18 @@ def assParse(subText):
     return sentence_db
 
 def srtParse(subText):
-    return []
+    sentence_db = []
+
+    pattern = re.compile(r'(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})\n(.*?)\n\n', re.DOTALL)
+    matches = pattern.findall(subText)
+
+    for match in matches:
+        t1, t2, sentence = match
+        t1 = t1.replace(",", ".")
+        t2 = t2.replace(",", ".")
+        sentence_db.append({'t1': t1, 't2': t2, 'sentence': sentence})
+
+    return sentence_db
 
 def subParse(subText):
     return []
