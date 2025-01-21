@@ -88,7 +88,7 @@ class FillContext(QDialog):
         word_layout.addWidget(self.lang_pack)
 
 
-        context_group = QGroupBox("Context fields")
+        context_group = QGroupBox("Contextualize fields")
         context_layout = QVBoxLayout()
         context_group.setLayout(context_layout)
         layout.addWidget(context_group)
@@ -97,7 +97,7 @@ class FillContext(QDialog):
         context_layout.addWidget(self.sentence_field)
         context_layout.addWidget(QLabel("Screenshot"))
         context_layout.addWidget(self.screenshot_field)
-        context_layout.addWidget(QLabel("Source field"))
+        context_layout.addWidget(QLabel("Source"))
         context_layout.addWidget(self.source_field)
 
 
