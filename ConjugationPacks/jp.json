@@ -1,0 +1,458 @@
+[
+	{
+		"PoS": "exception",
+		"forms": [
+			{
+				"dict": "する",
+				"conjs": [
+					{"label": "past", "conj": "した"},
+					{"label": "-te", "conj": "して"},
+
+					{"label": "imp/hyp", "conj": "しろ"},
+					{"label": "pot", "conj": "できる"},
+					{"label": "vol", "conj": "しよう"},
+
+					{"label": "stem", "conj": "し"},
+					{"label": "a-stem", "conj": "さ"}
+				]
+			},
+			{
+				"dict": "来る",
+				"conjs": [
+					{"label": "past", "conj": "来た"},
+					{"label": "-te", "conj": "来て"},
+
+					{"label": "imp/hyp", "conj": "来い"},
+					{"label": "vol", "conj": "来よう"},
+
+					{"label": "stem", "conj": "来"}
+				]
+			},
+			{
+				"dict": "行く",
+				"conjs": [
+					{"label": "past", "conj": "行った"},
+					{"label": "-te", "conj": "行って"}
+				]
+			},
+
+
+			{
+				"dict": "いい",
+				"conjs": [
+					{"label": "adv", "conj": "よく"},
+					{"label": "past", "conj": "よかった"},
+					{"label": "cond", "conj": "よければ"},
+					{"label": "vol", "conj": "よかろう"}
+				]
+			}
+		]
+	},
+
+
+
+	{
+		"PoS": "v1",
+		"forms": [
+			{
+				"dict": "_える",
+				"conjs": [
+					{"label": "-te", "conj": "_えて"},
+					{"label": "past", "conj": "_えた"},
+
+					{"label": "stem", "conj": "_え"}
+				]
+			},
+			{
+				"dict": "_れる",
+				"conjs": [
+					{"label": "-te", "conj": "_れて"},
+					{"label": "past", "conj": "_れた"},
+
+					{"label": "stem", "conj": "_れ"}
+				]
+			},
+			{
+				"dict": "_める",
+				"conjs": [
+					{"label": "-te", "conj": "_めて"},
+					{"label": "past", "conj": "_めた"},
+
+					{"label": "stem", "conj": "_め"}
+				]
+			},
+			{
+				"dict": "_みる",
+				"conjs": [
+					{"label": "-te", "conj": "_みて"},
+					{"label": "past", "conj": "_みた"},
+
+					{"label": "stem", "conj": "_み"}
+				]
+			},	
+			{
+				"dict": "_てる",
+				"conjs": [
+					{"label": "-te", "conj": "_てて"},
+					{"label": "past", "conj": "_てた"},
+
+					{"label": "stem", "conj": "_て"}
+				]
+			},
+			{
+				"dict": "_じる",
+				"conjs": [
+					{"label": "-te", "conj": "_じて"},
+					{"label": "past", "conj": "_じた"},
+
+					{"label": "stem", "conj": "_じ"}
+				]
+			},
+			{
+				"dict": "_せる",
+				"conjs": [
+					{"label": "-te", "conj": "_せて"},
+					{"label": "past", "conj": "_せた"},
+
+					{"label": "stem", "conj": "_せ"}
+				]
+			},
+			{
+				"dict": "_きる",
+				"conjs": [
+					{"label": "-te", "conj": "_きて"},
+					{"label": "past", "conj": "_きた"},
+
+					{"label": "stem", "conj": "_き"}
+				]
+			},
+			{
+				"dict": "_げる",
+				"conjs": [
+					{"label": "-te", "conj": "_げて"},
+					{"label": "past", "conj": "_げた"},
+
+					{"label": "stem", "conj": "_げ"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5u",
+		"forms": [
+			{
+				"dict": "_う",
+				"conjs": [
+					{"label": "-te", "conj": "_って"},
+					{"label": "past", "conj": "_った"},
+
+					{"label": "a-stem/neg", "conj": "_わ"},
+					{"label": "i-stem/conj", "conj": "_い"},
+
+					{"label": "imp/hyp", "conj": "_え"},
+					{"label": "vol", "conj": "_おう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5g",
+		"forms": [
+			{
+				"dict": "_ぐ",
+				"conjs": [
+					{"label": "-te", "conj": "_いで"},
+					{"label": "past", "conj": "_いだ"},
+
+					{"label": "a-stem/neg", "conj": "_が"},
+					{"label": "i-stem/conj", "conj": "_ぎ"},
+
+					{"label": "imp/hyp", "conj": "_げ"},
+					{"label": "vol", "conj": "_ごう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5t",
+		"forms": [
+			{
+				"dict": "_つ",
+				"conjs": [
+					{"label": "-te", "conj": "_って"},
+					{"label": "past", "conj": "_った"},
+
+					{"label": "a-stem/neg", "conj": "_た"},
+					{"label": "i-stem/conj", "conj": "_ち"},
+
+					{"label": "imp/hyp", "conj": "_て"},
+					{"label": "vol", "conj": "_とう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5s",
+		"forms": [
+			{
+				"dict": "_す",
+				"conjs": [
+					{"label": "-te", "conj": "_して"},
+					{"label": "past", "conj": "_した"},
+
+					{"label": "a-stem/neg", "conj": "_さ"},
+					{"label": "i-stem/conj", "conj": "_し"},
+
+					{"label": "imp/hyp", "conj": "_せ"},
+					{"label": "vol", "conj": "_そう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5m",
+		"forms": [
+			{
+				"dict": "_む",
+				"conjs": [
+					{"label": "-te", "conj": "_んで"},
+					{"label": "past", "conj": "_んだ"},
+
+					{"label": "a-stem/neg", "conj": "_ま"},
+					{"label": "i-stem/conj", "conj": "_み"},
+
+					{"label": "imp/hyp", "conj": "_め"},
+					{"label": "vol", "conj": "_もう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5b",
+		"forms": [
+			{
+				"dict": "_ぶ",
+				"conjs": [
+					{"label": "-te", "conj": "_んで"},
+					{"label": "past", "conj": "_んだ"},
+
+					{"label": "a-stem/neg", "conj": "_ば"},
+					{"label": "i-stem/conj", "conj": "_び"},
+
+					{"label": "imp/hyp", "conj": "_べ"},
+					{"label": "vol", "conj": "_ぼう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5k",
+		"forms": [
+			{
+				"dict": "_く",
+				"conjs": [
+					{"label": "-te", "conj": "_いて"},
+					{"label": "past", "conj": "_いた"},
+
+					{"label": "a-stem/neg", "conj": "_か"},
+					{"label": "i-stem/conj", "conj": "_き"},
+
+					{"label": "imp/hyp", "conj": "_け"},
+					{"label": "vol", "conj": "_こう"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5r",
+		"forms": [
+			{
+				"dict": "_る",
+				"conjs": [
+					{"label": "-te", "conj": "_って"},
+					{"label": "-tyau", "conj": "_っちゃ"},
+					{"label": "past", "conj": "_った"},
+
+					{"label": "a-stem/neg", "conj": "_ら"},
+					{"label": "i-stem/conj", "conj": "_り"},
+
+					{"label": "imp/hyp", "conj": "_れ"},
+					{"label": "vol", "conj": "_ろう"}	
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5aru",
+		"forms": [
+			{
+				"dict": "_さる",
+				"conjs": [
+					{"label": "past", "conj": "_さった"},
+					{"label": "-te", "conj": "_さって"},
+
+					{"label": "a-stem/neg", "conj": "_さら"},
+					{"label": "i-stem/conj", "conj": "_さり"},
+
+					{"label": "imp/hyp", "conj": "_され"},
+					{"label": "vol", "conj": "_さろう"}	
+				]
+			},
+			{
+				"dict": "_しゃる",
+				"conjs": [
+					{"label": "past", "conj": "_しゃった"},
+					{"label": "-te", "conj": "_しゃって"},
+
+					{"label": "a-stem/neg", "conj": "_しゃら"},
+					{"label": "i-stem/conj", "conj": "_しゃり"},
+
+					{"label": "imp/hyp", "conj": "_しゃれ"},
+					{"label": "vol", "conj": "_しゃろう"}	
+				]
+			}
+		]
+	},
+
+
+
+	{
+		"PoS": "vs",
+		"forms": [
+			{
+				"dict": "_する",
+				"conjs": [
+					{"label": "past", "conj": "_した"},
+					{"label": "-te", "conj": "_して"},
+
+					{"label": "imp/hyp", "conj": "_しろ"},
+					{"label": "pot", "conj": "_できる"},
+					{"label": "vol", "conj": "_しよう"},
+
+					{"label": "stem", "conj": "_し"},
+					{"label": "a-stem", "conj": "_さ"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "vk",
+		"forms": [
+			{
+				"dict": "_くる",
+				"conjs": [
+					{"label": "past", "conj": "_きた"},
+					{"label": "-te", "conj": "_きて"},
+
+					{"label": "imp/hyp", "conj": "_こい"},
+					{"label": "vol", "conj": "_こよう"},
+
+					{"label": "stem", "conj": "_き"}
+				]
+			}
+		]
+	},
+	{
+		"PoS": "v5k-s",
+		"forms": [
+			{
+				"dict": "_いく",
+				"conjs": [
+					{"label": "-te", "conj": "_いって"},
+					{"label": "past", "conj": "_いった"},
+
+					{"label": "a-stem/neg", "conj": "_いか"},
+					{"label": "i-stem/conj", "conj": "_いき"},
+
+					{"label": "imp/hyp", "conj": "_いけ"},
+					{"label": "vol", "conj": "_いこう"}
+				]
+			},
+			{
+				"dict": "_行く",
+				"conjs": [
+					{"label": "-te", "conj": "_行って"},
+					{"label": "past", "conj": "_行った"},
+
+					{"label": "a-stem/neg", "conj": "_行か"},
+					{"label": "i-stem/conj", "conj": "_行き"},
+
+					{"label": "imp/hyp", "conj": "_行け"},
+					{"label": "vol", "conj": "_行こう"}
+				]
+			}
+		]
+	},
+
+	{
+		"PoS": "v2g-k",
+		"forms": [
+			{
+				"dict": "_ぐ",
+				"conjs": [
+					{"label": "-te", "conj": "_ぎで"},
+					{"label": "past", "conj": "_ぎだ"},
+
+					{"label": "a-stem/neg", "conj": "_が"},
+					{"label": "i-stem/conj", "conj": "_ぎ"},
+
+					{"label": "imp/hyp", "conj": "_げ"},
+					{"label": "vol", "conj": "_ごう"}
+				]
+			}
+		]
+	},
+
+
+
+
+	{
+		"PoS": "adj-i",
+		"forms": [
+			{
+				"dict": "_い",
+				"conjs": [
+					{"label": "adv", "conj": "_く"},
+					{"label": "past", "conj": "_かった"},
+					{"label": "cond", "conj": "_ければ"},
+					{"label": "vol", "conj": "_かろう"}
+				]
+			}
+		]
+	},
+
+
+	{
+		"PoS": "v5aru",
+		"forms": [
+			{
+				"dict": "_る",
+				"conjs": [
+					{"label": "past", "conj": "_った"},
+					{"label": "-te", "conj": "_って"},
+
+					{"label": "a-stem/neg", "conj": "_ら"},
+					{"label": "i-stem/conj", "conj": "_り"},
+
+					{"label": "imp/hyp", "conj": "_れ"},
+					{"label": "vol", "conj": "_ろう"}	
+				]
+			}
+		]
+	},
+
+	{
+		"PoS": "v1",
+		"forms": [
+			{
+				"dict": "_る",
+				"conjs": [
+					{"label": "-te", "conj": "_て"},
+					{"label": "past", "conj": "_た"},
+
+					{"label": "stem", "conj": "_"}
+				]
+			}
+		]
+	}
+]
