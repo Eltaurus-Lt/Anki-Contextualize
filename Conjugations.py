@@ -1,6 +1,10 @@
 
 import os, json, re
 
+def installedPacks():
+    files = os.listdir(os.path.join(os.path.dirname(__file__), 'ConjugationPacks'))
+    return [os.path.splitext(file)[0] for file in files if file.endswith('.json')]
+
 def formMatch(word, dictForm):
 	regex = dictForm.replace("_", "(.*?)")
 	match =  re.fullmatch(regex, word)

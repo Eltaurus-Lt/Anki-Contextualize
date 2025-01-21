@@ -3,6 +3,8 @@ from aqt.utils import tooltip
 Encoding_candidates = ['ascii', 'utf-8', 'iso-8859-1', 'latin-1']
 
 def parse(filepath):
+    if not bool(filepath):
+        return []
 
     # Open the file in binary mode
     try:
@@ -30,8 +32,10 @@ def parse(filepath):
 
     if extension == 'ass':
         return assParse(subText)
-    elif extension == 'srt':
-        return []
+    if extension == 'srt':
+        return srtParse(subText)
+    if extension == 'sub':
+        return subParse(subText)
 
 
 def assParse(subText):
@@ -49,3 +53,9 @@ def assParse(subText):
             sentence_db.append({'t1': t1, 't2': t2, 'sentence': sentence})
 
     return sentence_db
+
+def srtParse(subText):
+    return []
+
+def subParse(subText):
+    return []

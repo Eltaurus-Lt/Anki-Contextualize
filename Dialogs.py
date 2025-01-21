@@ -1,8 +1,10 @@
 import os
+from . import Conjugations
 from aqt.qt import *
-Sentence_candidates = {"sentence", "sample sentence", "source sentence", "例文"}
-Screenshot_candidates = {"screenshot", "image", "絵"}
-Source_candidates = {"source"}
+from aqt import mw
+
+config = mw.addonManager.getConfig(__name__)
+
 Sub_exts = ["srt", "sub", "ass", "stl"]
 Video_exts = ["mkv", "mp4", "avi"]
 Text_exts = ["txt"]
@@ -11,14 +13,12 @@ def extFilter(extensions):
     return " ".join([f"*.{s}" for s in extensions])
 
 def indexFromCandidates(fields, candidates):
-    for i, field in enumerate(fields):
-        if field.lower() in candidates:
-            return i
+    fields = [field.lower() for field in fields]
+    for candidate in candidates:
+        if candidate in fields:
+            return fields.index(candidate)
+            
     return 0
-
-def conjugationPacks():
-    files = os.listdir(os.path.join(os.path.dirname(__file__), 'ConjugationPacks'))
-    return [os.path.splitext(file)[0] for file in files if file.endswith('.json')]
 
 class FillContext(QDialog):
     def __init__(self, notes_fields):
@@ -34,19 +34,19 @@ class FillContext(QDialog):
         self.alts_field.addItems(notes_fields_)
 
         self.lang_pack = QComboBox()
-        self.lang_pack.addItems(['—'] + conjugationPacks())
+        self.lang_pack.addItems(['—'] + Conjugations.installedPacks())
 
         self.sentence_field = QComboBox()
         self.sentence_field.addItems(notes_fields_)
-        self.sentence_field.setCurrentIndex(indexFromCandidates(notes_fields_, Sentence_candidates))
+        self.sentence_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["sentence candidates"]))
 
         self.screenshot_field = QComboBox()
         self.screenshot_field.addItems(notes_fields_)
-        self.screenshot_field.setCurrentIndex(indexFromCandidates(notes_fields_, Screenshot_candidates))
+        self.screenshot_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["screenshot candidates"]))
 
         self.source_field = QComboBox()
         self.source_field.addItems(notes_fields_)
-        self.source_field.setCurrentIndex(indexFromCandidates(notes_fields_, Source_candidates))
+        self.source_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["source candidates"]))
 
         self.source_text = QTextEdit()
         font_metrics = QFontMetrics(self.source_text.font())

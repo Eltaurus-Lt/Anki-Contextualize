@@ -1,36 +1,9 @@
-from . import Dialogs, Screenshots, Timestamps, Subtitles, Conjugations
+from . import Dialogs, Screenshots, Timestamps, Subtitles, SubtitleSearch
 from aqt import mw, gui_hooks
 from aqt.qt import *
 from aqt.progress import ProgressManager
 from aqt.utils import tooltip
 import os, re
-
-def subtitleWordSearch(word, sentence_db):
-    for entry in sentence_db:
-        if word in entry['sentence']:
-            return {'t1': entry['t1'], 't2': entry['t2'], 'sentence': entry['sentence'], 'word_form': word}
-
-    return {}
-
-def subtitleConjugatedSearch(word, sentence_db, conj_pack, pos = ""):
-    # dict form
-    searchResult = subtitleWordSearch(word, sentence_db)
-    if searchResult:
-        return searchResult
-
-    # conj forms
-    if conj_pack == '—' or not bool(conj_pack):
-        return {}
-
-    # blind match
-    wordForms = Conjugations.conjugate(word, conj_pack) # add pos here if not empty for non-blind
-    for wordForm in wordForms:
-        for conj in wordForm['conjs']:
-            searchResult = subtitleWordSearch(conj, sentence_db)
-            if searchResult:
-                return searchResult
-
-    return {}
                     
 
 def formatSampleSentence(word_form, sentence):
@@ -54,6 +27,8 @@ def contextualize(browser):
     word_field, alts_field, conj_pack, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
 
     sentence_db = Subtitles.parse(subtitleFile_path)
+    if not sentence_db:
+        return
     # tooltip(sentence_db)
 
     screenshots_meta = set()
@@ -66,15 +41,15 @@ def contextualize(browser):
         searchResult = {}
         ## based on predefined sentence or word-form
         if sentence_field in note.keys() and sentence_field != '—' and bool(note[sentence_field]):
-            searchResult = subtitleWordSearch(note[sentence_field], sentence_db)
+            searchResult = SubtitleSearch.searchExact(note[sentence_field], sentence_db)
         ## based on the main word field
         if not searchResult:
-            searchResult = subtitleConjugatedSearch(note[word_field], sentence_db, conj_pack)
+            searchResult = SubtitleSearch.searchConjugated(note[word_field], sentence_db, conj_pack)
         ## based on the alts
         if not searchResult and alts_field != '—' and bool(note[alts_field]):
-            alts = [alt.replace("&nbsp;", " ").strip() for alt in re.split(r'[|｜]', note[alts_field])]
+            alts = re.split(r'[|｜]', note[alts_field])
             for alt in alts:
-                searchResult = subtitleConjugatedSearch(alt, sentence_db, conj_pack)
+                searchResult = SubtitleSearch.searchConjugated(alt, sentence_db, conj_pack)
                 if searchResult:
                     break
         # progress_manager.update(label = "Filling-in Notes", value = note_n)
@@ -106,6 +81,8 @@ def contextualize(browser):
         progress_manager.update(value = scr_n)
 
     progress_manager.finish();
+
+
 
 def choices_context_menu(browser):
     menuC = browser.form.menu_Cards

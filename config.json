@@ -1,0 +1,5 @@
+{
+    "sentence candidates": ["sentence", "example sentence", "sample sentence", "source sentence", "例文", "文"],
+    "screenshot candidates": ["screenshot", "image", "絵", "ショット"],
+    "source candidates": ["source", "元", "ソース"]
+}
