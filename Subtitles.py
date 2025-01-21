@@ -34,6 +34,8 @@ def parse(filepath):
         return assParse(subText)
     if extension == 'srt':
         return srtParse(subText)
+    if extension == 'sub':
+        return subParse(subText)
 
 
 def assParse(subText):
@@ -53,4 +55,7 @@ def assParse(subText):
     return sentence_db
 
 def srtParse(subText):
+    return []
+
+def subParse(subText):
     return []
