@@ -14,11 +14,16 @@ def subtitleWordSearch(word, sentence_db):
 
 def subtitleConjugatedSearch(word, sentence_db, conj_pack, pos = ""):
     # dict form
+    word = word.replace("&nbsp;", " ").strip()
+    if not bool(word):
+        return {}
+
     searchResult = subtitleWordSearch(word, sentence_db)
     if searchResult:
         return searchResult
 
     # conj forms
+
     if conj_pack == '—' or not bool(conj_pack):
         return {}
 
@@ -72,7 +77,7 @@ def contextualize(browser):
             searchResult = subtitleConjugatedSearch(note[word_field], sentence_db, conj_pack)
         ## based on the alts
         if not searchResult and alts_field != '—' and bool(note[alts_field]):
-            alts = [alt.replace("&nbsp;", " ").strip() for alt in re.split(r'[|｜]', note[alts_field])]
+            alts = re.split(r'[|｜]', note[alts_field])
             for alt in alts:
                 searchResult = subtitleConjugatedSearch(alt, sentence_db, conj_pack)
                 if searchResult:
