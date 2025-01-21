@@ -1,4 +1,5 @@
 import os
+from . import Conjugations
 from aqt.qt import *
 Sentence_candidates = {"sentence", "sample sentence", "source sentence", "例文"}
 Screenshot_candidates = {"screenshot", "image", "絵"}
@@ -16,10 +17,6 @@ def indexFromCandidates(fields, candidates):
             return i
     return 0
 
-def conjugationPacks():
-    files = os.listdir(os.path.join(os.path.dirname(__file__), 'ConjugationPacks'))
-    return [os.path.splitext(file)[0] for file in files if file.endswith('.json')]
-
 class FillContext(QDialog):
     def __init__(self, notes_fields):
         super().__init__()
@@ -34,7 +31,7 @@ class FillContext(QDialog):
         self.alts_field.addItems(notes_fields_)
 
         self.lang_pack = QComboBox()
-        self.lang_pack.addItems(['—'] + conjugationPacks())
+        self.lang_pack.addItems(['—'] + Conjugations.installedPacks())
 
         self.sentence_field = QComboBox()
         self.sentence_field.addItems(notes_fields_)
