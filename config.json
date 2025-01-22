@@ -1,5 +1,8 @@
 {
     "sentence candidates": ["sentence", "example sentence", "sample sentence", "source sentence", "例文", "文"],
     "screenshot candidates": ["screenshot", "image", "絵", "ショット"],
-    "source candidates": ["source", "元", "ソース"]
+    "source candidates": ["source", "元", "ソース"],
+    "screenshot extension": "jpg",
+    "ffmpeg path": "ffmpeg",
+    "screenshot resolution": "720:-1"
 }
