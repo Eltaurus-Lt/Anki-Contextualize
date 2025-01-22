@@ -5,7 +5,7 @@ from aqt import mw
 
 config = mw.addonManager.getConfig(__name__)
 
-Sub_exts = ["srt", "sub", "ass", "stl"]
+Sub_exts = ["srt", "sub", "ass"]
 Video_exts = ["mkv", "mp4", "avi"]
 Text_exts = ["txt"]
 
