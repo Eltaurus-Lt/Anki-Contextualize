@@ -1,0 +1,31 @@
+.deckthumbnail {
+	vertical-align: middle; 
+	display: inline-block; 
+	margin-right: 30px;
+	width: 76px;
+	aspect-ratio: 1;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+.deckdiv {
+	text-align: center;
+	font-family: HelveticaNeueCyr, "Noto Sans CJK JP", Arial, "Adobe Heiti Std", "BIZ UDPGothic", "MS Gothic";
+	font-weight: bold;
+	font-size: x-large;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+:root{
+	--review-count: royalblue;
+	--new-count: forestgreen; 
+	--learn-count: #ffc900;
+
+	--font-light: #fffc;
+}
+:root.night-mode{
+	--review-count: royalblue;
+	--new-count: forestgreen; 
+	--learn-count: red; 
+}

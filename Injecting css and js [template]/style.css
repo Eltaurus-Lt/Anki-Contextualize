@@ -1,0 +1,9 @@
+:root {
+    --state-new: Orange; 
+    --state-learn: MediumSeaGreen;
+    --state-review: SlateBlue;
+}
+
+body {
+    background: Ivory;
+}
