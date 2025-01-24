@@ -8,12 +8,13 @@
 					{"label": "past", "conj": "した"},
 					{"label": "-te", "conj": "して"},
 
-					{"label": "imp/hyp", "conj": "しろ"},
+					{"label": "imp", "conj": "しろ"},
 					{"label": "pot", "conj": "できる"},
 					{"label": "vol", "conj": "しよう"},
 
-					{"label": "stem", "conj": "し"},
-					{"label": "a-stem", "conj": "さ"}
+					{"label": "stem(neg)", "conj": "し"},
+					{"label": "a-stem", "conj": "さ"},
+					{"label": "e-stem(cond)", "conj": "す"}
 				]
 			},
 			{
@@ -22,10 +23,10 @@
 					{"label": "past", "conj": "来た"},
 					{"label": "-te", "conj": "来て"},
 
-					{"label": "imp/hyp", "conj": "来い"},
+					{"label": "imp", "conj": "来い"},
 					{"label": "vol", "conj": "来よう"},
 
-					{"label": "stem", "conj": "来"}
+					{"label": "stem(neg/cond)", "conj": "来"}
 				]
 			},
 			{
@@ -146,10 +147,10 @@
 					{"label": "-te", "conj": "_って"},
 					{"label": "past", "conj": "_った"},
 
-					{"label": "a-stem/neg", "conj": "_わ"},
-					{"label": "i-stem/conj", "conj": "_い"},
+					{"label": "a-stem(neg)", "conj": "_わ"},
+					{"label": "i-stem(conj)", "conj": "_い"},
 
-					{"label": "imp/hyp", "conj": "_え"},
+					{"label": "e-stem(cond/imp)", "conj": "_え"},
 					{"label": "vol", "conj": "_おう"}
 				]
 			}
@@ -164,10 +165,10 @@
 					{"label": "-te", "conj": "_いで"},
 					{"label": "past", "conj": "_いだ"},
 
-					{"label": "a-stem/neg", "conj": "_が"},
-					{"label": "i-stem/conj", "conj": "_ぎ"},
+					{"label": "a-stem(neg)", "conj": "_が"},
+					{"label": "i-stem(conj)", "conj": "_ぎ"},
 
-					{"label": "imp/hyp", "conj": "_げ"},
+					{"label": "e-stem(cond/imp)", "conj": "_げ"},
 					{"label": "vol", "conj": "_ごう"}
 				]
 			}
@@ -182,10 +183,10 @@
 					{"label": "-te", "conj": "_って"},
 					{"label": "past", "conj": "_った"},
 
-					{"label": "a-stem/neg", "conj": "_た"},
-					{"label": "i-stem/conj", "conj": "_ち"},
+					{"label": "a-stem(neg)", "conj": "_た"},
+					{"label": "i-stem(conj)", "conj": "_ち"},
 
-					{"label": "imp/hyp", "conj": "_て"},
+					{"label": "e-stem(cond/imp)", "conj": "_て"},
 					{"label": "vol", "conj": "_とう"}
 				]
 			}
@@ -200,10 +201,10 @@
 					{"label": "-te", "conj": "_して"},
 					{"label": "past", "conj": "_した"},
 
-					{"label": "a-stem/neg", "conj": "_さ"},
-					{"label": "i-stem/conj", "conj": "_し"},
+					{"label": "a-stem(neg)", "conj": "_さ"},
+					{"label": "i-stem(conj)", "conj": "_し"},
 
-					{"label": "imp/hyp", "conj": "_せ"},
+					{"label": "e-stem(cond/imp)", "conj": "_せ"},
 					{"label": "vol", "conj": "_そう"}
 				]
 			}
@@ -218,10 +219,10 @@
 					{"label": "-te", "conj": "_んで"},
 					{"label": "past", "conj": "_んだ"},
 
-					{"label": "a-stem/neg", "conj": "_ま"},
-					{"label": "i-stem/conj", "conj": "_み"},
+					{"label": "a-stem(neg)", "conj": "_ま"},
+					{"label": "i-stem(conj)", "conj": "_み"},
 
-					{"label": "imp/hyp", "conj": "_め"},
+					{"label": "e-stem(cond/imp)", "conj": "_め"},
 					{"label": "vol", "conj": "_もう"}
 				]
 			}
@@ -236,10 +237,10 @@
 					{"label": "-te", "conj": "_んで"},
 					{"label": "past", "conj": "_んだ"},
 
-					{"label": "a-stem/neg", "conj": "_ば"},
-					{"label": "i-stem/conj", "conj": "_び"},
+					{"label": "a-stem(neg)", "conj": "_ば"},
+					{"label": "i-stem(conj)", "conj": "_び"},
 
-					{"label": "imp/hyp", "conj": "_べ"},
+					{"label": "e-stem(cond/imp)", "conj": "_べ"},
 					{"label": "vol", "conj": "_ぼう"}
 				]
 			}
@@ -254,10 +255,10 @@
 					{"label": "-te", "conj": "_いて"},
 					{"label": "past", "conj": "_いた"},
 
-					{"label": "a-stem/neg", "conj": "_か"},
-					{"label": "i-stem/conj", "conj": "_き"},
+					{"label": "a-stem(neg)", "conj": "_か"},
+					{"label": "i-stem(conj)", "conj": "_き"},
 
-					{"label": "imp/hyp", "conj": "_け"},
+					{"label": "e-stem(cond/imp)", "conj": "_け"},
 					{"label": "vol", "conj": "_こう"}
 				]
 			}
@@ -273,10 +274,10 @@
 					{"label": "-tyau", "conj": "_っちゃ"},
 					{"label": "past", "conj": "_った"},
 
-					{"label": "a-stem/neg", "conj": "_ら"},
-					{"label": "i-stem/conj", "conj": "_り"},
+					{"label": "a-stem(neg)", "conj": "_ら"},
+					{"label": "i-stem(conj)", "conj": "_り"},
 
-					{"label": "imp/hyp", "conj": "_れ"},
+					{"label": "e-stem(cond/imp)", "conj": "_れ"},
 					{"label": "vol", "conj": "_ろう"}	
 				]
 			}
@@ -291,10 +292,10 @@
 					{"label": "past", "conj": "_さった"},
 					{"label": "-te", "conj": "_さって"},
 
-					{"label": "a-stem/neg", "conj": "_さら"},
-					{"label": "i-stem/conj", "conj": "_さり"},
+					{"label": "a-stem(neg)", "conj": "_さら"},
+					{"label": "i-stem(conj)", "conj": "_さり"},
 
-					{"label": "imp/hyp", "conj": "_され"},
+					{"label": "e-stem(cond/imp)", "conj": "_され"},
 					{"label": "vol", "conj": "_さろう"}	
 				]
 			},
@@ -304,10 +305,10 @@
 					{"label": "past", "conj": "_しゃった"},
 					{"label": "-te", "conj": "_しゃって"},
 
-					{"label": "a-stem/neg", "conj": "_しゃら"},
-					{"label": "i-stem/conj", "conj": "_しゃり"},
+					{"label": "a-stem(neg)", "conj": "_しゃら"},
+					{"label": "i-stem(conj)", "conj": "_しゃり"},
 
-					{"label": "imp/hyp", "conj": "_しゃれ"},
+					{"label": "e-stem(cond/imp)", "conj": "_しゃれ"},
 					{"label": "vol", "conj": "_しゃろう"}	
 				]
 			}
@@ -325,11 +326,12 @@
 					{"label": "past", "conj": "_した"},
 					{"label": "-te", "conj": "_して"},
 
-					{"label": "imp/hyp", "conj": "_しろ"},
+					{"label": "imp", "conj": "_しろ"},
 					{"label": "pot", "conj": "_できる"},
 					{"label": "vol", "conj": "_しよう"},
 
-					{"label": "stem", "conj": "_し"},
+					{"label": "stem(cond)", "conj": "_す"},
+					{"label": "i-stem(neg)", "conj": "_し"},
 					{"label": "a-stem", "conj": "_さ"}
 				]
 			}
@@ -344,10 +346,12 @@
 					{"label": "past", "conj": "_きた"},
 					{"label": "-te", "conj": "_きて"},
 
-					{"label": "imp/hyp", "conj": "_こい"},
+					{"label": "neg", "conj": "_こ"},
+					{"label": "imp", "conj": "_こい"},
 					{"label": "vol", "conj": "_こよう"},
 
-					{"label": "stem", "conj": "_き"}
+					{"label": "stem(cond)", "conj": "_く"},
+					{"label": "i-stem", "conj": "_き"}
 				]
 			}
 		]
@@ -361,10 +365,10 @@
 					{"label": "-te", "conj": "_いって"},
 					{"label": "past", "conj": "_いった"},
 
-					{"label": "a-stem/neg", "conj": "_いか"},
-					{"label": "i-stem/conj", "conj": "_いき"},
+					{"label": "a-stem(neg)", "conj": "_いか"},
+					{"label": "i-stem(conj)", "conj": "_いき"},
 
-					{"label": "imp/hyp", "conj": "_いけ"},
+					{"label": "e-stem(cond/imp)", "conj": "_いけ"},
 					{"label": "vol", "conj": "_いこう"}
 				]
 			},
@@ -374,10 +378,10 @@
 					{"label": "-te", "conj": "_行って"},
 					{"label": "past", "conj": "_行った"},
 
-					{"label": "a-stem/neg", "conj": "_行か"},
-					{"label": "i-stem/conj", "conj": "_行き"},
+					{"label": "a-stem(neg)", "conj": "_行か"},
+					{"label": "i-stem(conj)", "conj": "_行き"},
 
-					{"label": "imp/hyp", "conj": "_行け"},
+					{"label": "e-stem(cond/imp)", "conj": "_行け"},
 					{"label": "vol", "conj": "_行こう"}
 				]
 			}
@@ -393,10 +397,10 @@
 					{"label": "-te", "conj": "_ぎで"},
 					{"label": "past", "conj": "_ぎだ"},
 
-					{"label": "a-stem/neg", "conj": "_が"},
-					{"label": "i-stem/conj", "conj": "_ぎ"},
+					{"label": "a-stem(neg)", "conj": "_が"},
+					{"label": "i-stem(conj)", "conj": "_ぎ"},
 
-					{"label": "imp/hyp", "conj": "_げ"},
+					{"label": "e-stem(cond/imp)", "conj": "_げ"},
 					{"label": "vol", "conj": "_ごう"}
 				]
 			}
@@ -431,10 +435,10 @@
 					{"label": "past", "conj": "_った"},
 					{"label": "-te", "conj": "_って"},
 
-					{"label": "a-stem/neg", "conj": "_ら"},
-					{"label": "i-stem/conj", "conj": "_り"},
+					{"label": "a-stem(neg)", "conj": "_ら"},
+					{"label": "i-stem(conj)", "conj": "_り"},
 
-					{"label": "imp/hyp", "conj": "_れ"},
+					{"label": "e-stem(cond/imp)", "conj": "_れ"},
 					{"label": "vol", "conj": "_ろう"}	
 				]
 			}

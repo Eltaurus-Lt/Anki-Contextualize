@@ -65,8 +65,6 @@ def srtParse(subText):
 
     for match in matches:
         t1, t2, sentence = match
-        t1 = t1.replace(",", ".")
-        t2 = t2.replace(",", ".")
         sentence_db.append({'t1': t1, 't2': t2, 'sentence': sentence})
 
     return sentence_db
