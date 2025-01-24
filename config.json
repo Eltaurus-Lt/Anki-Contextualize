@@ -4,6 +4,6 @@
     "source candidates": ["source", "元", "ソース"],
     "screenshot extension": "jpg",
     "ffmpeg path": "ffmpeg",
-    "image editor path": "photoshop -o"
+    "image editor path": "photoshop -o",
     "screenshot resolution": "720:-1"
 }

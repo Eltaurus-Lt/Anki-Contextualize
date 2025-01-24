@@ -1,10 +1,17 @@
 import os
-from anki.hooks import addHook
 from aqt import mw
 
-addon_path = os.path.dirname(__file__)
+config = mw.addonManager.getConfig(__name__)
 
 image_field = ""
+
+editors = ["Photoshop", "GIMP", "Krita"]
+
+def imageEditorQ():
+    for editor in editors:
+        if editor.lower() in config["image editor path"].lower():
+            return editor    
+    return "Image Editor"
 
 def images_from_field(field, note):
     imgs = note[field].split("<img")[1:]
@@ -13,9 +20,9 @@ def images_from_field(field, note):
     imgs = [img.split('"')[1] for img in imgs]
 
     for img in imgs:
-        os.popen(f'photoshop -o {os.path.join(mw.col.media.dir(), img)}')
+        os.popen(f'{config["image editor path"]} {os.path.join(mw.col.media.dir(), img)}')
 
-def edit_in_ps(editor):
+def edit_image(editor):
     note = editor.note
     if image_field:
         images_from_field(image_field, note)
@@ -26,20 +33,17 @@ def edit_in_ps(editor):
 
 def setupEditorButtonsFilter(buttons, editor):
     if image_field:
-        tip = 'Edit {{' + image_field + '}} in Photoshop'
+        tip = 'Edit {{' + image_field + '}} in ' + imageEditorQ()
     else:
-        tip = 'Edit all images in Photoshop'
+        tip = 'Edit all images in ' + imageEditorQ()
 
     buttons.insert(0,
         editor.addButton(
-            os.path.join(addon_path, "icons", "ps.svg"),
+            os.path.join(os.path.dirname(__file__), "..", "icons", "ps.svg"),
             'Ps',
-            edit_in_ps,
+            edit_image,
             tip=tip
         )
     )
 
     return buttons
-
-addHook("setupEditorButtons", setupEditorButtonsFilter)
-# gui_hooks.editor_did_init_buttons.append(setupEditorButtonsFilter)
