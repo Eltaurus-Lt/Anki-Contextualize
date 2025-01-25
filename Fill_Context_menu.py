@@ -24,7 +24,11 @@ def contextualize(browser):
     dialog = Dialogs.FillContext(unique_fields)
     if not dialog.exec():
         return
-    word_field, alts_field, conj_pack, sentence_field, screenshot_field, source_field, source_text, videoFile_path, subtitleFile_path = dialog.get_selected_options()
+    (
+        word_field, alts_field, conj_pack, 
+        sentence_field, screenshot_field, source_field, 
+        videoFile_path, subtitleFile_path, source_text, tag_string
+    ) = dialog.get_selected_options()
 
     sentence_db = Subtitles.parse(subtitleFile_path)
     if not sentence_db:
@@ -66,6 +70,11 @@ def contextualize(browser):
             note[screenshot_field] = f"<img src='{screenshotFilename}'/>"
         if source_field in note.keys() and source_field != '—':
             note[source_field] = source_text
+        # adding tags
+        tags = {tag.strip() for tag in re.split(r'[ \u3000]', tag_string)}
+        for tag in tags:
+            if bool(tag):
+                note.add_tag(tag)
 
         counter += 1
         mw.col.update_note(note)
