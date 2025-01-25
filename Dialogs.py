@@ -48,6 +48,16 @@ class FillContext(QDialog):
         self.source_field.addItems(notes_fields_)
         self.source_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["source candidates"]))
 
+        self.videoFile_path = QLineEdit("")
+        # self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.videoFile_button = QPushButton("Select File", self)
+        self.videoFile_button.clicked.connect(self.selectVideoFile)
+
+        self.subtitleFile_path = QLineEdit("")
+        # self.subtitleFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.subtitleFile_button = QPushButton("Select File", self)
+        self.subtitleFile_button.clicked.connect(self.selectSubtitleFile)
+
         self.source_text = QTextEdit()
         font_metrics = QFontMetrics(self.source_text.font())
         line_height = font_metrics.lineSpacing()
@@ -58,18 +68,10 @@ class FillContext(QDialog):
         # self.source_text.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding))
         # self.source_text.setMaxLength(255)
 
+        self.tag_string = QLineEdit("")
+
         self.button_ok = QPushButton("OK")
         self.button_cancel = QPushButton("Cancel")
-
-        self.videoFile_path = QLineEdit("")
-        # self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
-        self.videoFile_button = QPushButton("Select File", self)
-        self.videoFile_button.clicked.connect(self.selectVideoFile)
-
-        self.subtitleFile_path = QLineEdit("")
-        # self.subtitleFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
-        self.subtitleFile_button = QPushButton("Select File", self)
-        self.subtitleFile_button.clicked.connect(self.selectSubtitleFile)
 
 
         # Create layout
@@ -120,8 +122,9 @@ class FillContext(QDialog):
 
         source_layout.addWidget(QLabel("Text description"))
         source_layout.addWidget(self.source_text)
-        # tags
 
+        source_layout.addWidget(QLabel("Tags"))
+        source_layout.addWidget(self.tag_string)
 
         layout.addSpacing(2 * line_height)
         layout.addStretch()
@@ -145,7 +148,11 @@ class FillContext(QDialog):
         self.button_cancel.clicked.connect(self.reject)
 
     def get_selected_options(self):
-        return self.word_field.currentText(), self.alts_field.currentText(), self.lang_pack.currentText(), self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), self.source_text.toPlainText(), self.videoFile_path.text(), self.subtitleFile_path.text()
+        return (
+            self.word_field.currentText(), self.alts_field.currentText(), self.lang_pack.currentText(), 
+            self.sentence_field.currentText(), self.screenshot_field.currentText(), self.source_field.currentText(), 
+            self.videoFile_path.text(), self.subtitleFile_path.text(), self.source_text.toPlainText(), self.tag_string.text()
+        )
 
     def selectVideoFile(self):
         file_dialog = QFileDialog(self)
