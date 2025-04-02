@@ -31,7 +31,7 @@ editors = ["Photoshop", "GIMP", "Krita"]
 
 def imageEditorQ():
     for editor in editors:
-        if editor.lower() in config["image editor path"].lower():
+        if editor.lower() in config["image editor"]["path"].lower():
             return editor    
     return "Image Editor"
 
@@ -42,7 +42,7 @@ def images_from_field(field, note):
     imgs = [img.split('"')[1] for img in imgs]
 
     for img in imgs:
-        os.popen(f'{config["image editor path"]} {os.path.join(mw.col.media.dir(), img)}')
+        os.popen(f'{config["image editor"]["path"]} {os.path.join(mw.col.media.dir(), img)}')
 
 def edit_image(editor):
     note = editor.note

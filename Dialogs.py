@@ -24,6 +24,7 @@ import os
 from . import Conjugations
 from aqt.qt import *
 from aqt import mw
+from fnmatch import fnmatch
 
 config = mw.addonManager.getConfig(__name__)
 
@@ -36,9 +37,13 @@ def extFilter(extensions):
 
 def indexFromCandidates(fields, candidates):
     fields = [field.lower() for field in fields]
+    candidates = [candidate.lower() for candidate in candidates]
     for candidate in candidates:
         if candidate in fields:
             return fields.index(candidate)
+        for field in fields:
+            if fnmatch(field, candidate):
+                return fields.index(field)
             
     return 0
 
@@ -51,24 +56,26 @@ class FillContext(QDialog):
         # Create widgets
         self.word_field = QComboBox()
         self.word_field.addItems(notes_fields)
+        self.word_field.setCurrentIndex(indexFromCandidates(notes_fields, config["fields"]["main"]))
 
         self.alts_field = QComboBox()
         self.alts_field.addItems(notes_fields_)
+        self.alts_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["fields"]["alt"]))
 
         self.lang_pack = QComboBox()
         self.lang_pack.addItems(['—'] + Conjugations.installedPacks())
 
         self.sentence_field = QComboBox()
         self.sentence_field.addItems(notes_fields_)
-        self.sentence_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["sentence candidates"]))
+        self.sentence_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["fields"]["sentence"]))
 
         self.screenshot_field = QComboBox()
         self.screenshot_field.addItems(notes_fields_)
-        self.screenshot_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["screenshot candidates"]))
+        self.screenshot_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["fields"]["image"]))
 
         self.source_field = QComboBox()
         self.source_field.addItems(notes_fields_)
-        self.source_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["source candidates"]))
+        self.source_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["fields"]["source"]))
 
         self.videoFile_path = QLineEdit("")
         # self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
@@ -106,7 +113,7 @@ class FillContext(QDialog):
 
         word_layout.addWidget(QLabel("Main field"))
         word_layout.addWidget(self.word_field)
-        word_layout.addWidget(QLabel("Alts field"))
+        word_layout.addWidget(QLabel("Alt field"))
         word_layout.addWidget(self.alts_field)
         word_layout.addWidget(QLabel("Conjugation Pack"))
         word_layout.addWidget(self.lang_pack)

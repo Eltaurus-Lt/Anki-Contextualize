@@ -1,9 +1,23 @@
 {
-    "sentence candidates": ["sentence", "example sentence", "sample sentence", "source sentence", "例文", "文"],
-    "screenshot candidates": ["screenshot", "image", "絵", "ショット"],
-    "source candidates": ["source", "元", "ソース"],
-    "screenshot extension": "jpg",
-    "ffmpeg path": "ffmpeg",
-    "image editor path": "photoshop -o",
-    "screenshot resolution": "720:-1"
+    "fields": {
+        "main": ["Japanese*", "Deutsch", "French", "*English*"],        
+        "alt": ["Kana*", "*Kana*"],
+        "sentence": ["*sentence", "*文"],
+        "image": ["screenshot", "image", "Img", "picture", "絵", "ショット"],
+        "source": ["Source", "元", "ソース"],
+        "conjugation rules": {
+            "Japanese": "jp",
+            "kana": "jp"
+        }
+    },
+    "ffmpeg": {
+        "path": "ffmpeg",
+        "screenshots": {
+            "extension": "jpg",
+            "resolution": "720:-1"
+        }
+    },
+    "image editor": {
+        "path": "photoshop -o"
+    }
 }
