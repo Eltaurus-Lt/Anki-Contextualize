@@ -23,27 +23,50 @@ def contextSearch(editor):
     note = editor.note
     fields = note.keys()
 
-    wordField = fields[MostLikely.fieldIndex(fields, "main")]
-    word = note[wordField]
-
     sentenceFields = config["fields"]["sentence"]
     if not sentenceFields:
         tooltip(f'no sentence fields specified in the config')
         return
 
-    wordForms = [word]
-    conj_pack = MostLikely.fieldConjugationPack(wordField)
-    if conj_pack != '—':
-        wordForms += [conj for wordForm in Conjugations.conjugate(word, conj_pack) for conj in wordForm["conjs"]]
-
     query = ''
-    for sentenceField in sentenceFields:
-    	for wordForm in wordForms:
-    		query += f' OR "{sentenceField}:*{wordForm}*"'
-    if query.startswith(' OR '):
-        query = query[4::]
 
-# altField = fields[MostLikely.fieldIndex(fields, "alt")]
+    wordField = fields[MostLikely.fieldIndex(fields, "main")]
+    word = note[wordField]
+    if word:
+        wordForms = [word]
+        conj_pack = MostLikely.fieldConjugationPack(wordField)
+        if conj_pack != '—':
+            wordForms += [conj for wordForm in Conjugations.conjugate(word, conj_pack) for conj in wordForm["conjs"]]
+
+        for sentenceField in sentenceFields:
+            for wordForm in wordForms:
+                if wordForm:
+                    query += f' OR "{sentenceField}:*{wordForm}*"'
+        if query.startswith(' OR '):
+            query = query[4::]
+
+    altQuery = ''
+
+    altField = fields[MostLikely.fieldIndex(fields, "alt")]
+    alt = note[altField]
+    if alt:
+        altForms = [alt]
+        conj_pack = MostLikely.fieldConjugationPack(altField)
+        if conj_pack != '—':
+            altForms += [conj for altForm in Conjugations.conjugate(alt, conj_pack) for conj in altForm["conjs"]]        
+
+        for sentenceField in sentenceFields:
+            for altForm in altForms:
+                if altForm:
+                    altQuery += f' OR "{sentenceField}:*{altForm}*"'
+        if altQuery.startswith(' OR '):
+            altQuery = altQuery[4::]
+
+    if not query:
+        query = altQuery
+        altQuery = ''
+    if altQuery:
+        query = f'({query}) OR ({altQuery})'
 
     AnkiBrowserSearch(query)
 
@@ -55,7 +78,7 @@ def setupEditorButtonsFilter(buttons, editor):
             os.path.join(addon_path, "icons", "contextSearch.svg"),
             'contextSearch',
             contextSearch,
-            tip="Search for other sentences containing the word"
+            tip="Search for sentences containing the word"
         )
     )
     # buttons.insert(0,
