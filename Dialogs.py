@@ -47,6 +47,15 @@ def indexFromCandidates(fields, candidates):
             
     return 0
 
+def pickFieldConjugation(field):
+    rules = config["fields"]["conjugation rules"]
+    for lang in rules.keys():
+        if lang.lower() in field.lower() and rules[lang] in Conjugations.installedPacks():
+            return rules[lang]
+
+    return '—'
+
+
 class FillContext(QDialog):
     def __init__(self, notes_fields):
         super().__init__()
@@ -63,7 +72,10 @@ class FillContext(QDialog):
         self.alts_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["fields"]["alt"]))
 
         self.lang_pack = QComboBox()
-        self.lang_pack.addItems(['—'] + Conjugations.installedPacks())
+        lang_packs_ = ['—'] + Conjugations.installedPacks()
+        self.lang_pack.addItems(lang_packs_)
+        self.lang_pack.setCurrentIndex(lang_packs_.index(pickFieldConjugation(self.word_field.currentText())))
+        
 
         self.sentence_field = QComboBox()
         self.sentence_field.addItems(notes_fields_)

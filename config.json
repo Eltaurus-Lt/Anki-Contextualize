@@ -7,7 +7,10 @@
         "source": ["Source", "元", "ソース"],
         "conjugation rules": {
             "Japanese": "jp",
-            "kana": "jp"
+            "kana": "jp",
+            "EnGlIsH": "en",
+            "Deutsch": "de",
+            "german": "de"
         }
     },
     "ffmpeg": {
