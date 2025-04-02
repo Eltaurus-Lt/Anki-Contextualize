@@ -1,7 +1,7 @@
 # This script is part of the Contextualize Add-on for Anki.
 # Source: https://github.com/Eltaurus-Lt/Anki-Contextualize
 # 
-# Copyright © 2024-2025 Eltaurus
+# Copyright © 2025 Eltaurus
 # Contact: 
 #     Email: Eltaurus@inbox.lt
 #     GitHub: github.com/Eltaurus-Lt
