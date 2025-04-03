@@ -1,5 +1,5 @@
 import os
-from aqt import dialogs, mw
+from aqt import dialogs, mw, gui_hooks
 from aqt.utils import tooltip
 from anki.hooks import addHook
 from . import Conjugations, MostLikely
@@ -134,9 +134,9 @@ def setupEditorButtonsFilter(buttons, editor):
 
     buttons.insert(0,
         editor.addButton(
-            os.path.join(addon_path, "icons", "contextSearch.svg"),
-            'contextSearch',
-            contextSearch,
+            icon=os.path.join(addon_path, "icons", "contextSearch.svg"),
+            cmd='contextSearch',
+            func=contextSearch,
             tip="Search for sentences containing the word"
         )
     )
@@ -160,6 +160,22 @@ def setupEditorButtonsFilter(buttons, editor):
 
     return buttons
 
+def injectInlineStyles(web_content, context):
+
+    styles = f"""
+    <style>
+        [part="word-highlight"],
+        div.rich-text-editable::part(word-highlight) {{
+            background-color: {config["highlight"]["color"]};
+            border-radius: 2px;
+            padding: 1px;
+        }}
+    </style>
+    """
+
+    web_content.head += styles
 
 
+# gui_hooks.editor_did_init_buttons.append(setupEditorButtonsFilter)
 addHook("setupEditorButtons", setupEditorButtonsFilter)
+gui_hooks.webview_will_set_content.append(injectInlineStyles)
