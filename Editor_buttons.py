@@ -96,7 +96,7 @@ def closingTag(tag):
 
 
 def wordHighlightLegacy(editor):
-    OP = config["highlight tag"]
+    OP = config["highlight"]["tag"]
     ED = closingTag(OP)
     if ED and '>' not in ED:
         tooltip('incorrect highlight tag, check the config')
@@ -109,7 +109,28 @@ def wordHighlightLegacy(editor):
     editor.web.eval(f"document.execCommand('insertHTML', false, {repr(OP + selection + ED)});")
 
 
+def updIconHighlightColor(icon_file):
+    svg_path = os.path.join(addon_path, "icons", f"{icon_file}")
+
+    if os.path.exists(svg_path):
+        with open(svg_path, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+
+    for i, line in enumerate(lines):
+        if "--col-highlight:" in line:
+            lines[i] = f'--col-highlight: {config["highlight"]["color"]};\n'
+        
+    with open(svg_path, "w", encoding="utf-8") as file:
+        file.writelines(lines)
+
+
 def setupEditorButtonsFilter(buttons, editor):
+
+    #modify highlight color in the button icons
+    icon_folder = os.path.join(addon_path, "icons")
+    [updIconHighlightColor(f) for f in os.listdir(icon_folder) if os.path.isfile(os.path.join(icon_folder, f))]
+
+
 
     buttons.insert(0,
         editor.addButton(
@@ -138,5 +159,7 @@ def setupEditorButtonsFilter(buttons, editor):
 
 
     return buttons
+
+
 
 addHook("setupEditorButtons", setupEditorButtonsFilter)

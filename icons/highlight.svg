@@ -3,7 +3,7 @@
   <defs>
     <style type="text/css">
 :root {
---col-highlight: blue;
+--col-highlight: #e9c3ffbb;
 }
 .word-highlight {
 fill: var(--col-highlight);

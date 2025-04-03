@@ -23,5 +23,8 @@
     "image editor": {
         "path": "photoshop -o"
     },
-    "highlight tag": "<span part='word-highlight'>"
+    "highlight": {
+        "tag": "<span part='word-highlight'>",
+        "color": "#e9c3ffbb"
+    }
 }

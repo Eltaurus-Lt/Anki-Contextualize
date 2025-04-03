@@ -3,7 +3,7 @@
   <defs>
     <style>
 :root {
---col-highlight: blue;
+--col-highlight: #e9c3ffbb;
 }
       .cls-1, .cls-2 {
         fill: none;
