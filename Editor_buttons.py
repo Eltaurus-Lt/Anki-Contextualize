@@ -17,7 +17,7 @@ def AnkiBrowserSearch(query):
     browser.form.searchEdit.lineEdit().setText(query)
     browser.onSearchActivated()
     return True
-	
+
 
 def contextSearch(editor):
     note = editor.note
@@ -71,6 +71,44 @@ def contextSearch(editor):
     AnkiBrowserSearch(query)
 
 
+def closingTag(tag):
+    if '<' not in tag:
+        if '>' in tag:
+            return "error"
+        else:
+            return ''
+
+    tag = tag[tag.index('<') + 1::]
+
+    # todo: check if tag is img (or other self-closing) and crop till the next tag / multiple closing tags
+
+    if '>' not in tag:
+        return "error"
+
+    for ed in [' ', '>']:
+        if ed in tag:
+            tag = tag[:tag.index(ed)]
+
+    if tag.startswith('/'):
+        return "error"
+
+    return "</" + tag + ">"
+
+
+def wordHighlightLegacy(editor):
+    OP = config["highlight tag"]
+    ED = closingTag(OP)
+    if ED and '>' not in ED:
+        tooltip('incorrect highlight tag, check the config')
+        return
+
+    selection = editor.web.selectedText()
+    if not selection:
+        return
+
+    editor.web.eval(f"document.execCommand('insertHTML', false, {repr(OP + selection + ED)});")
+
+
 def setupEditorButtonsFilter(buttons, editor):
 
     buttons.insert(0,
@@ -81,22 +119,23 @@ def setupEditorButtonsFilter(buttons, editor):
             tip="Search for sentences containing the word"
         )
     )
+    buttons.insert(1,
+        editor.addButton(
+            os.path.join(addon_path, "icons", "highlight.svg"),
+            'wordHighlight',
+            wordHighlightLegacy,
+            tip="(Auto)highlight the word in the text sample"
+        )
+    )
     # buttons.insert(0,
     #     editor.addButton(
     #         os.path.join(addon_path, "icons", "edupl.svg"),
     #         'ImageDuplicates',
     #         image_duplicates,
-    #         tip="Find notes with same images"
+    #         tip="Find notes referencing same images"
     #     )
     # )
-    # buttons.insert(2,
-    #     editor.addButton(
-    #         os.path.join(addon_path, "icons", "highlight.svg"),
-    #         'wordHighlight',
-    #         wordHighlight,
-    #         tip="(Auto)highlight the word in the text sample"
-    #     )
-    # )
+
 
     return buttons
 

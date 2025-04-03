@@ -22,5 +22,6 @@
     },
     "image editor": {
         "path": "photoshop -o"
-    }
+    },
+    "highlight tag": "<span part='word-highlight'>"
 }
