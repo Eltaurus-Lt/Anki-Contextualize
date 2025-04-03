@@ -108,6 +108,71 @@ def wordHighlightLegacy(editor):
 
     editor.web.eval(f"document.execCommand('insertHTML', false, {repr(OP + selection + ED)});")
 
+def wordHighlightAuto(editor, OP, ED):
+    note = editor.note
+    fields = note.keys()
+
+    wordField = fields[MostLikely.fieldIndex(fields, "main")]
+    word = note[wordField]
+    altField = fields[MostLikely.fieldIndex(fields, "alt")]
+    alt = note[altField]
+    if not word and not alt:
+        tooltip(f'no text selected in the editor and both {wordField} and {altField} are empty')
+        return
+
+    sentenceFieldCandidates = config["fields"]["sentence"]
+    if not sentenceFieldCandidates:
+        tooltip(f'no text selected in the editor and sentence fields specified in the config')
+        return
+
+    sentenceIndex = MostLikely.fieldIndex(['—'] + fields, "sentence")
+    if sentenceIndex == 0:
+        tooltip(f'no text selected in the editor and no sentence fields on the note')
+        return
+    sentenceField = fields[sentenceIndex - 1]
+
+    if not note[sentenceField]:
+        tooltip(f'{sentenceField} does not have any sentences')
+        return
+
+    wordForms = []
+    if word:
+        wordForms += [word]
+        conj_pack = MostLikely.fieldConjugationPack(wordField)
+        if conj_pack != '—':
+            wordForms += [conj for wordForm in Conjugations.conjugate(word, conj_pack) for conj in wordForm["conjs"]]            
+
+    if alt:
+        wordForms += [alt]
+        conj_pack = MostLikely.fieldConjugationPack(altField)
+        if conj_pack != '—':
+            wordForms += [conj for wordForm in Conjugations.conjugate(alt, conj_pack) for conj in wordForm["conjs"]]                        
+
+    for wordForm in wordForms:
+        if wordForm in note[sentenceField]:
+            note[sentenceField] = note[sentenceField].replace(wordForm, OP + wordForm + ED)
+            mw.col.update_note(note)
+            editor.loadNoteKeepingFocus()
+            tooltip(f'word form {wordForm} highlighted')
+            return
+
+    tooltip(f'there is not manual selection and automatic matching did not find any instances of {word}({alt}) in "{sentenceField}"')
+    return
+
+def wordHighlight(editor):
+    OP = config["highlight"]["tag"]
+    ED = closingTag(OP)
+    if ED and '>' not in ED:
+        tooltip('incorrect highlight tag, check the config')
+        return
+
+    selection = editor.web.selectedText()
+    if not selection:
+        wordHighlightAuto(editor, OP, ED)
+        return
+
+    editor.web.eval(f"document.execCommand('insertHTML', false, {repr(OP + selection + ED)});")
+
 
 def updIconHighlightColor(icon_file):
     svg_path = os.path.join(addon_path, "icons", f"{icon_file}")
@@ -144,7 +209,7 @@ def setupEditorButtonsFilter(buttons, editor):
         editor.addButton(
             os.path.join(addon_path, "icons", "highlight.svg"),
             'wordHighlight',
-            wordHighlightLegacy,
+            wordHighlight,
             tip="(Auto)highlight the word in the text sample"
         )
     )
