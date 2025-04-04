@@ -1,3 +1,25 @@
+# This script is part of the Contextualize Add-on for Anki.
+# Source: https://github.com/Eltaurus-Lt/Anki-Contextualize
+# 
+# Copyright © 2024-2025 Eltaurus
+# Contact: 
+#     Email: Eltaurus@inbox.lt
+#     GitHub: github.com/Eltaurus-Lt
+#     Anki Forums: forums.ankiweb.net/u/Eltaurus
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+
 import os, json
 from aqt import dialogs, mw, gui_hooks
 from aqt.utils import tooltip
@@ -238,6 +260,36 @@ def updIconHighlightColor(icon_file):
         file.writelines(lines)
 
 
+
+image_field = ""
+
+editors = ["Photoshop", "GIMP", "Krita"]
+
+def imageEditorQ():
+    for editor in editors:
+        if editor.lower() in config["image editor"]["path"].lower():
+            return editor    
+    return "Image Editor"
+
+def images_from_field(field, note):
+    imgs = note[field].split("<img")[1:]
+    imgs = [img.split(">")[0] for img in imgs]
+    imgs = [img.split("src=")[1] for img in imgs]
+    imgs = [img.split('"')[1] for img in imgs]
+
+    for img in imgs:
+        os.popen(f'{config["image editor"]["path"]} {os.path.join(mw.col.media.dir(), img)}')
+
+def openImages4Editing(editor):
+    note = editor.note
+    if image_field:
+        images_from_field(image_field, note)
+    else:
+        for field in note.keys():
+            images_from_field(field, note)
+
+
+
 def setupEditorButtonsFilter(buttons, editor):
 
     #modify highlight color in the button icons
@@ -245,8 +297,15 @@ def setupEditorButtonsFilter(buttons, editor):
     [updIconHighlightColor(f) for f in os.listdir(icon_folder) if os.path.isfile(os.path.join(icon_folder, f))]
 
 
-
     buttons.insert(0,
+        editor.addButton(
+            os.path.join(os.path.dirname(__file__), "icons", "ps.svg"),
+            'Ps',
+            openImages4Editing,
+            tip="Open images in " + imageEditorQ()
+        )
+    )
+    buttons.insert(1,
         editor.addButton(
             icon=os.path.join(addon_path, "icons", "contextSearch.svg"),
             cmd='contextSearch',
@@ -254,7 +313,7 @@ def setupEditorButtonsFilter(buttons, editor):
             tip="Search for sentences containing the word"
         )
     )
-    buttons.insert(1,
+    buttons.insert(2,
         editor.addButton(
             os.path.join(addon_path, "icons", "highlight.svg"),
             'wordHighlight',

@@ -3,7 +3,7 @@
         "main": ["Japanese*", "Deutsch", "French", "*English*"],        
         "alt": ["Kana*", "*Kana*"],
         "sentence": ["*sentence", "*文"],
-        "image": ["screenshot", "image", "Img", "picture", "絵", "ショット"],
+        "image": ["screenshot", "image", "Img", "picture", "絵", "ショット", "Mems"],
         "source": ["Source", "元", "ソース"],
         "conjugation rules": {
             "Japanese": "jp",
