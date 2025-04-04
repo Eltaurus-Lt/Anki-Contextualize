@@ -24,8 +24,9 @@ import os, json, time
 from aqt import dialogs, mw, gui_hooks
 from aqt.utils import tooltip
 from anki.hooks import addHook
-from . import Conjugations, MostLikely
+from . import Conjugations, MostLikely, console
 from bs4 import BeautifulSoup
+from fnmatch import fnmatch
 
 addon_path = os.path.dirname(__file__)
 config = mw.addonManager.getConfig(__name__)
@@ -262,24 +263,40 @@ def updIconHighlightColor(icon_file):
 
 
 
-image_field = ""
-
-def images_from_field(field, note):
-    soup = BeautifulSoup(note[field], "html.parser")
+def openSrcs(fieldContents):
+    soup = BeautifulSoup(fieldContents, "html.parser")
     img_tags = soup.find_all("img")
     img_srcs = [img.get("src") for img in img_tags if img.get("src")]
 
     for img_src in img_srcs:
         os.popen(f'{config["image editor"]["path"]} {os.path.join(mw.col.media.dir(), img_src)}')
-        time.sleep(0.5)
+        time.sleep(0.5) #try using subprocess to catch error about missing images instead
+
+    return len(img_srcs)
 
 def openImages4Editing(editor):
+    imageFieldPatterns = config["fields"]["image"]
+
     note = editor.note
-    if image_field:
-        images_from_field(image_field, note)
+    imageFields = []
+    for pattern in imageFieldPatterns:
+        for imageFieldCandidate in note.keys():
+            if fnmatch(imageFieldCandidate, pattern):
+                imageFields.append(imageFieldCandidate)
+    
+    counter = 0
+    for field in (imageFields or note.keys()):
+        counter += openSrcs(note[field])
+
+    if counter > 0:
+        tooltip(f"{counter} image{' was' if counter == 1 else 's were'} sent to {MostLikely.imageEditor()}")
+        return
+
+    if imageFields:
+        tooltip(f"no images in {imageFields}")
     else:
-        for field in note.keys():
-            images_from_field(field, note)
+        tooltip(f"no images found in the note")
+
 
 
 
