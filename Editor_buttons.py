@@ -20,11 +20,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-import os, json
+import os, json, time
 from aqt import dialogs, mw, gui_hooks
 from aqt.utils import tooltip
 from anki.hooks import addHook
 from . import Conjugations, MostLikely
+from bs4 import BeautifulSoup
 
 addon_path = os.path.dirname(__file__)
 config = mw.addonManager.getConfig(__name__)
@@ -263,22 +264,14 @@ def updIconHighlightColor(icon_file):
 
 image_field = ""
 
-editors = ["Photoshop", "GIMP", "Krita"]
-
-def imageEditorQ():
-    for editor in editors:
-        if editor.lower() in config["image editor"]["path"].lower():
-            return editor    
-    return "Image Editor"
-
 def images_from_field(field, note):
-    imgs = note[field].split("<img")[1:]
-    imgs = [img.split(">")[0] for img in imgs]
-    imgs = [img.split("src=")[1] for img in imgs]
-    imgs = [img.split('"')[1] for img in imgs]
+    soup = BeautifulSoup(note[field], "html.parser")
+    img_tags = soup.find_all("img")
+    img_srcs = [img.get("src") for img in img_tags if img.get("src")]
 
-    for img in imgs:
-        os.popen(f'{config["image editor"]["path"]} {os.path.join(mw.col.media.dir(), img)}')
+    for img_src in img_srcs:
+        os.popen(f'{config["image editor"]["path"]} {os.path.join(mw.col.media.dir(), img_src)}')
+        time.sleep(0.5)
 
 def openImages4Editing(editor):
     note = editor.note
@@ -296,16 +289,7 @@ def setupEditorButtonsFilter(buttons, editor):
     icon_folder = os.path.join(addon_path, "icons")
     [updIconHighlightColor(f) for f in os.listdir(icon_folder) if os.path.isfile(os.path.join(icon_folder, f))]
 
-
     buttons.insert(0,
-        editor.addButton(
-            os.path.join(os.path.dirname(__file__), "icons", "ps.svg"),
-            'Ps',
-            openImages4Editing,
-            tip="Open images in " + imageEditorQ()
-        )
-    )
-    buttons.insert(1,
         editor.addButton(
             icon=os.path.join(addon_path, "icons", "contextSearch.svg"),
             cmd='contextSearch',
@@ -313,7 +297,7 @@ def setupEditorButtonsFilter(buttons, editor):
             tip="Search for sentences containing the word"
         )
     )
-    buttons.insert(2,
+    buttons.insert(1,
         editor.addButton(
             os.path.join(addon_path, "icons", "highlight.svg"),
             'wordHighlight',
@@ -321,6 +305,15 @@ def setupEditorButtonsFilter(buttons, editor):
             tip="(Auto)highlight the word in the text sample"
         )
     )
+    if config["image editor"]["path"]:
+        buttons.insert(0,
+            editor.addButton(
+                os.path.join(os.path.dirname(__file__), "icons", "ps.svg"),
+                'Ps',
+                openImages4Editing,
+                tip=f"Open images in {MostLikely.imageEditor()}"
+            )
+        )
     # buttons.insert(0,
     #     editor.addButton(
     #         os.path.join(addon_path, "icons", "edupl.svg"),

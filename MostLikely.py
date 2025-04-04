@@ -4,6 +4,12 @@ from . import Conjugations
 
 config = mw.addonManager.getConfig(__name__)
 
+def imageEditor():
+    for editor in ["Photoshop", "GIMP", "Krita"]:
+        if editor.lower() in config["image editor"]["path"].lower():
+            return editor    
+    return "Image Editor"
+
 def fieldIndex(fields, category):
     fields = [field.lower() for field in fields]
     candidates = [candidate.lower() for candidate in config["fields"][category]]
