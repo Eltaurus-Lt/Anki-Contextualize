@@ -1,4 +1,4 @@
-import os
+import os, json
 from aqt import dialogs, mw, gui_hooks
 from aqt.utils import tooltip
 from anki.hooks import addHook
@@ -138,13 +138,13 @@ def wordHighlightAuto(editor, OP, ED):
     wordForms = []
     if word:
         wordForms += [word]
-        conj_pack = MostLikely.fieldConjugationPack(wordField)
+        conj_pack = MostLikely.fieldConjugationPack(wordField) #move this outside
         if conj_pack != '—':
             wordForms += [conj for wordForm in Conjugations.conjugate(word, conj_pack) for conj in wordForm["conjs"]]            
 
     if alt:
         wordForms += [alt]
-        conj_pack = MostLikely.fieldConjugationPack(altField)
+        conj_pack = MostLikely.fieldConjugationPack(altField) #remove this. determine pack by main field only
         if conj_pack != '—':
             wordForms += [conj for wordForm in Conjugations.conjugate(alt, conj_pack) for conj in wordForm["conjs"]]                        
 
@@ -171,7 +171,56 @@ def wordHighlight(editor):
         wordHighlightAuto(editor, OP, ED)
         return
 
-    editor.web.eval(f"document.execCommand('insertHTML', false, {repr(OP + selection + ED)});")
+    # editor.web.eval(f"document.execCommand('insertHTML', false, {repr(OP + selection + ED)});")
+
+    current_field = editor.currentField
+    if current_field is None:
+        tooltip('error when determining current_field')
+        return
+
+    js_code = f"""
+        (function() {{
+            try {{
+                const activeElement = document.activeElement;
+                const shadowRoot = activeElement.shadowRoot;
+                const field = shadowRoot.querySelector('[contenteditable="true"]');
+
+                const selection = shadowRoot.getSelection();
+                //console.log(selection);
+                if (selection.rangeCount > 0) {{
+                    const range = selection.getRangeAt(0);
+                    const contents = range.extractContents();
+                    const tempL = document.createElement('div');
+                    tempL.appendChild(contents);
+                    tempL.innerHTML = {repr(OP)} + tempL.innerHTML + {repr(ED)};
+                    console.log(tempL.innerHTML);
+                    range.deleteContents();
+                    Array.from(tempL.childNodes).reverse().forEach(node => {{range.insertNode(node.cloneNode(true));}});
+
+                    //selection.removeAllRanges();
+                }}
+
+                return JSON.stringify({{ success: "ok" }});
+            }} catch (error) {{
+                return JSON.stringify({{ error: error.message }});
+            }}
+        }})();
+    """
+
+    def callback(js_result):
+        try:
+            result = json.loads(js_result)
+            if result.get("error"):
+                # console.log(result["error"], editor)
+                if result["error"] == "Cannot read properties of null (reading 'querySelector')":
+                    tooltip("formatted field content should be selected instead of html code")
+                return
+
+        except json.JSONDecodeError:
+            tooltip("An error occurred while processing the selection!")
+
+    # editor.web.evalWithCallback(js_code, callback)    
+    editor.web.eval(js_code)    
 
 
 def updIconHighlightColor(icon_file):
