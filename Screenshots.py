@@ -1,7 +1,7 @@
 # This script is part of the Contextualize Add-on for Anki.
 # Source: https://github.com/Eltaurus-Lt/Anki-Contextualize
 # 
-# Copyright © 2024-2025 Eltaurus
+# Copyright © 2024 Eltaurus
 # Contact: 
 #     Email: Eltaurus@inbox.lt
 #     GitHub: github.com/Eltaurus-Lt
@@ -29,10 +29,10 @@ overwrite = True
 
 def composeName(source_filename, ts):
     basename, _ = os.path.splitext(os.path.basename(source_filename))
-    outputName = f'Contextualize_{basename.replace(" ","")}_{ts}.{config["screenshot extension"]}'.replace(":", ";")
+    outputName = f'Contextualize_{basename.replace(" ","")}_{ts}.{config["ffmpeg"]["screenshots"]["extension"]}'.replace(":", ";")
     return outputName
 
 def save(ts, saveas, videoSource):
     fullOutputPath = os.path.join(mw.col.media.dir(), saveas)
-    os.popen(f'{config["ffmpeg path"]} {"-y" if overwrite else "-n"} -ss {ts} -i \"{videoSource}\" -vf scale={config["screenshot resolution"]} -frames:v 1 -q:v 7 \"{fullOutputPath}\"')
+    os.popen(f'{config["ffmpeg"]["path"]} {"-y" if overwrite else "-n"} -ss {ts} -i \"{videoSource}\" -vf scale={config["ffmpeg"]["screenshots"]["resolution"]} -frames:v 1 -q:v 7 \"{fullOutputPath}\"')
     return

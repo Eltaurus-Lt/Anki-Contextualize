@@ -22,10 +22,8 @@
 
 import os
 from . import Conjugations
+from . import MostLikely
 from aqt.qt import *
-from aqt import mw
-
-config = mw.addonManager.getConfig(__name__)
 
 Sub_exts = ["srt", "sub", "ass"]
 Video_exts = ["mkv", "mp4", "avi"]
@@ -33,14 +31,6 @@ Text_exts = ["txt"]
 
 def extFilter(extensions):
     return " ".join([f"*.{s}" for s in extensions])
-
-def indexFromCandidates(fields, candidates):
-    fields = [field.lower() for field in fields]
-    for candidate in candidates:
-        if candidate in fields:
-            return fields.index(candidate)
-            
-    return 0
 
 class FillContext(QDialog):
     def __init__(self, notes_fields):
@@ -51,24 +41,29 @@ class FillContext(QDialog):
         # Create widgets
         self.word_field = QComboBox()
         self.word_field.addItems(notes_fields)
+        self.word_field.setCurrentIndex(MostLikely.fieldIndex(notes_fields, "main"))
 
         self.alts_field = QComboBox()
         self.alts_field.addItems(notes_fields_)
+        self.alts_field.setCurrentIndex(MostLikely.fieldIndex(notes_fields_, "alt"))
 
         self.lang_pack = QComboBox()
-        self.lang_pack.addItems(['—'] + Conjugations.installedPacks())
+        lang_packs_ = ['—'] + Conjugations.installedPacks()
+        self.lang_pack.addItems(lang_packs_)
+        self.lang_pack.setCurrentIndex(lang_packs_.index(MostLikely.fieldConjugationPack(self.word_field.currentText())))
+        
 
         self.sentence_field = QComboBox()
         self.sentence_field.addItems(notes_fields_)
-        self.sentence_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["sentence candidates"]))
+        self.sentence_field.setCurrentIndex(MostLikely.fieldIndex(notes_fields_, "sentence"))
 
         self.screenshot_field = QComboBox()
         self.screenshot_field.addItems(notes_fields_)
-        self.screenshot_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["screenshot candidates"]))
+        self.screenshot_field.setCurrentIndex(MostLikely.fieldIndex(notes_fields_, "image"))
 
         self.source_field = QComboBox()
         self.source_field.addItems(notes_fields_)
-        self.source_field.setCurrentIndex(indexFromCandidates(notes_fields_, config["source candidates"]))
+        self.source_field.setCurrentIndex(MostLikely.fieldIndex(notes_fields_, "source"))
 
         self.videoFile_path = QLineEdit("")
         # self.videoFile_path.setAlignment(Qt.AlignmentFlag.AlignRight)
@@ -106,7 +101,7 @@ class FillContext(QDialog):
 
         word_layout.addWidget(QLabel("Main field"))
         word_layout.addWidget(self.word_field)
-        word_layout.addWidget(QLabel("Alts field"))
+        word_layout.addWidget(QLabel("Alt field"))
         word_layout.addWidget(self.alts_field)
         word_layout.addWidget(QLabel("Conjugation Pack"))
         word_layout.addWidget(self.lang_pack)
