@@ -1,4 +1,5 @@
 from aqt import mw
+from aqt.qt import QApplication
 from fnmatch import fnmatch
 from . import Conjugations
 
@@ -29,3 +30,18 @@ def fieldConjugationPack(field):
             return rules[lang]
 
     return '—'
+
+def editor(nid = ""): 
+    editors = [widget.editor for widget in QApplication.instance().topLevelWidgets() if widget.objectName() == "Dialog" and hasattr(widget, "editor")]
+
+    if not editors:
+        return None
+
+    if not nid:
+        return editors[0]
+
+    for editor in editors:
+        if editor.note and editor.note.id == nid:
+            return editor
+    
+    return None

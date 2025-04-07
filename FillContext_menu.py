@@ -20,13 +20,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-from . import Dialogs, Screenshots, Timestamps, Subtitles, SubtitleSearch
+from . import Dialogs, Screenshots, Timestamps, Subtitles, SubtitleSearch, MostLikely
 from aqt import mw, gui_hooks
-from aqt.qt import *
+from aqt.qt import qconnect
 from aqt.progress import ProgressManager
 from aqt.utils import tooltip
 import os, re
-                    
 
 def formatSampleSentence(word_form, sentence):
     return sentence
@@ -52,45 +51,73 @@ def contextualize(browser):
         videoFile_path, subtitleFile_path, source_text, tag_string
     ) = dialog.get_selected_options()
 
-    sentence_db = Subtitles.parse(subtitleFile_path)
-    if not sentence_db:
+    try:
+        sentence_db = Subtitles.parse(subtitleFile_path)
+        if not sentence_db:
+            tooltip("❌ Parsing the subtitle file did not return any results")
+            return
+    except Exception as error:
+        tooltip(f"❌ {error}")
         return
-    # tooltip(sentence_db)
+
+
+    try:
+        makeScreenshots = (screenshot_field != '—' and Screenshots.enabled(videoFile_path))
+    except Exception as error:
+        tooltip(f"⚠️ Screenshots cannot be taken ({error})")
+        makeScreenshots = False
 
     screenshots_meta = set()
     progress_manager = ProgressManager(mw)
     # progress_manager.start(label = "Filling-in Notes", max = len(notes), immediate = True)
-    counter = 0
+    log = []
     for note_n, note in enumerate(notes):
 
         # Search
         searchResult = {}
-        ## based on predefined sentence or word-form
-        if sentence_field in note.keys() and sentence_field != '—' and bool(note[sentence_field]):
+        ## based on the predefined sentence or word-form
+        if sentence_field in note.keys() and note[sentence_field]:
             searchResult = SubtitleSearch.searchExact(note[sentence_field], sentence_db)
         ## based on the main word field
         if not searchResult:
             searchResult = SubtitleSearch.searchConjugated(note[word_field], sentence_db, conj_pack)
         ## based on the alts
-        if not searchResult and alts_field != '—' and bool(note[alts_field]):
+        if not searchResult and alts_field in note.keys() and note[alts_field]:
             alts = re.split(r'[|｜]', note[alts_field])
             for alt in alts:
                 searchResult = SubtitleSearch.searchConjugated(alt, sentence_db, conj_pack)
                 if searchResult:
                     break
         # progress_manager.update(label = "Filling-in Notes", value = note_n)
+
+        log_wordForm = note[word_field]
+        if not log_wordForm and alts_field in note.keys():
+            log_wordForm = note[alts_field]
+
+        if not log_wordForm and sentence_field in note.keys():
+            log_wordForm = note[sentence_field]
+
         if not searchResult:
+            log.append((log_wordForm, ""))
             continue
 
+
+
         # Filling-in context fields
-        if sentence_field in note.keys() and sentence_field != '—':
+
+        if sentence_field in note.keys():
             note[sentence_field] = formatSampleSentence(searchResult['word_form'], searchResult['sentence'])
-        if screenshot_field in note.keys() and bool(videoFile_path) and screenshot_field != '—':
+            log.append((log_wordForm, note[sentence_field]))
+        else:
+            log.append((log_wordForm, "✅"))
+
+        if screenshot_field in note.keys() and makeScreenshots:
             ts = Timestamps.average(searchResult['t1'], searchResult['t2'])
             screenshotFilename = Screenshots.composeName(videoFile_path, ts)
             screenshots_meta.add((('ts', ts), ('filename', screenshotFilename)))
             note[screenshot_field] = f"<img src='{screenshotFilename}'/>"
-        if source_field in note.keys() and source_field != '—':
+
+        if source_field in note.keys():
             note[source_field] = source_text
         # adding tags
         tags = {tag.strip() for tag in re.split(r'[ \u3000]', tag_string)}
@@ -98,10 +125,9 @@ def contextualize(browser):
             if bool(tag):
                 note.add_tag(tag)
 
-        counter += 1
         mw.col.update_note(note)
-        # if len(notes) == 1:
-            # editor.set_note(editor.note) #refresh editor view
+
+
 
     progress_manager.start(label = "Making screenshots", max = len(screenshots_meta), immediate = True)
 
@@ -111,7 +137,14 @@ def contextualize(browser):
         Screenshots.save(meta_dict['ts'], meta_dict['filename'], videoFile_path)    
         progress_manager.update(value = scr_n)
 
-    progress_manager.finish();
+    progress_manager.finish()
+
+    if len(notes) == 1:
+        editor = MostLikely.editor(notes[0].id)
+        if editor:
+            editor.setNote(mw.col.get_note(notes[0].id)) #refresh editor view
+    else:
+        Dialogs.ResultsLog(log).exec()
 
 
 

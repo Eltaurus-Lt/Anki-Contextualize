@@ -209,3 +209,65 @@ class FillContext(QDialog):
             if selected_files:
                 file_name = os.path.normpath(selected_files[0])
                 self.subtitleFile_path.setText(file_name)
+
+
+
+class ResultsLog(QDialog):
+    def __init__(self, notes):
+        super().__init__()
+
+        self.setWindowTitle("Results Log")
+
+        layout = QVBoxLayout()
+
+
+        count = len([sent for word, sent in notes if sent])
+        self.label = QLabel(f"{count}/{len(notes)} notes contextualized:")
+        layout.addWidget(self.label)
+
+
+        # self.log = QTableWidget()
+        # self.log.setRowCount(len(notes))
+        # self.log.setColumnCount(2)
+        # self.log.setHorizontalHeaderLabels(["Word", "Sentence"])
+        # for row, (col1, col2) in enumerate(notes):
+        #     self.log.setItem(row, 0, QTableWidgetItem(col1))
+        #     self.log.setItem(row, 1, QTableWidgetItem(col2))
+        # self.log.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        # # self.log.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
+        # # self.log.setFocusPolicy(Qt.FocusPolicy.NoFocus)        
+        # self.log.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
+        # self.log.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection) 
+
+        self.log = QTextBrowser()
+        self.log.setReadOnly(True)
+        log_html = """
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td, th {
+                border: 1px solid #88888888;
+                padding: 4px;
+            }
+        </style>
+        <table>
+        """
+        for word, sent in notes:
+            log_html += f"<tr><td>{word}</td><td>{sent if sent else '❌'}</td></tr>"
+        log_html += "</table>"
+        self.log.setHtml(log_html)
+        layout.addWidget(self.log)
+
+
+        button_layout = QHBoxLayout()
+        button_layout.addStretch()
+        self.button_ok = QPushButton("OK")
+        self.button_ok.clicked.connect(self.accept)
+        button_layout.addWidget(self.button_ok)
+        button_layout.addStretch()
+        layout.addLayout(button_layout)
+
+
+        self.setLayout(layout)
