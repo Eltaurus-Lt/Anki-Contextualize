@@ -25,15 +25,15 @@ import os, re
 Encoding_candidates = ['ascii', 'utf-8', 'iso-8859-1', 'latin-1']
 
 def parse(filepath):
-    if not bool(filepath):
-        return []
+    if not filepath:
+        raise ValueError("No subtitle file specified")
 
     # Open the file in binary mode
     try:
         with open(filepath, 'rb') as file:
             raw_data = file.read()
-    except FileNotFound:
-        tooltip(f"Subtitle file does not exist ('filepath')")
+    except FileNotFoundError:
+        raise ValueError(f"Subtitle file not found at {filepath}")
 
     # Guess the encoding by trying different encodings
     for candidate in Encoding_candidates:
@@ -46,7 +46,7 @@ def parse(filepath):
             continue
     else:
         # If all decodings fail, raise an error
-        raise ValueError("Unable to decode the file with any common encoding")
+        raise ValueError("Unable to decode the subtitle file with any common encoding")
 
     # print(encoding)
     # print(subText)

@@ -51,10 +51,15 @@ def contextualize(browser):
         videoFile_path, subtitleFile_path, source_text, tag_string
     ) = dialog.get_selected_options()
 
-    sentence_db = Subtitles.parse(subtitleFile_path)
-    if not sentence_db:
+    try:
+        sentence_db = Subtitles.parse(subtitleFile_path)
+        if not sentence_db:
+            tooltip("error: parsing the subtitle file did not return any results")
+            return
+    except Exception as error:
+        tooltip(f"error: {error}")
         return
-    # tooltip(sentence_db)
+
 
     screenshots_meta = set()
     progress_manager = ProgressManager(mw)
@@ -82,6 +87,7 @@ def contextualize(browser):
         log_wordForm = note[word_field]
         if not log_wordForm and alts_field in note.keys():
             log_wordForm = note[alts_field]
+
         if not log_wordForm and sentence_field in note.keys():
             log_wordForm = note[sentence_field]
 
