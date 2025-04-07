@@ -59,31 +59,44 @@ def contextualize(browser):
     screenshots_meta = set()
     progress_manager = ProgressManager(mw)
     # progress_manager.start(label = "Filling-in Notes", max = len(notes), immediate = True)
-    counter = 0
+    log = []
     for note_n, note in enumerate(notes):
 
         # Search
         searchResult = {}
-        ## based on predefined sentence or word-form
-        if sentence_field in note.keys() and sentence_field != '—' and bool(note[sentence_field]):
+        ## based on the predefined sentence or word-form
+        if sentence_field in note.keys() and note[sentence_field]:
             searchResult = SubtitleSearch.searchExact(note[sentence_field], sentence_db)
         ## based on the main word field
         if not searchResult:
             searchResult = SubtitleSearch.searchConjugated(note[word_field], sentence_db, conj_pack)
         ## based on the alts
-        if not searchResult and alts_field != '—' and bool(note[alts_field]):
+        if not searchResult and alts_field in note.keys() and note[alts_field]:
             alts = re.split(r'[|｜]', note[alts_field])
             for alt in alts:
                 searchResult = SubtitleSearch.searchConjugated(alt, sentence_db, conj_pack)
                 if searchResult:
                     break
         # progress_manager.update(label = "Filling-in Notes", value = note_n)
+
+        log_wordForm = note[word_field]
+        if not log_wordForm and alts_field in note.keys():
+            log_wordForm = note[alts_field]
+        if not log_wordForm and sentence_field in note.keys():
+            log_wordForm = note[sentence_field]
+
         if not searchResult:
+            log.append((log_wordForm, ""))
             continue
+
+
 
         # Filling-in context fields
         if sentence_field in note.keys() and sentence_field != '—':
             note[sentence_field] = formatSampleSentence(searchResult['word_form'], searchResult['sentence'])
+            log.append((log_wordForm, note[sentence_field]))
+        else:
+            log.append((log_wordForm, "✅"))
         if screenshot_field in note.keys() and bool(videoFile_path) and screenshot_field != '—':
             ts = Timestamps.average(searchResult['t1'], searchResult['t2'])
             screenshotFilename = Screenshots.composeName(videoFile_path, ts)
@@ -97,14 +110,9 @@ def contextualize(browser):
             if bool(tag):
                 note.add_tag(tag)
 
-        counter += 1
         mw.col.update_note(note)
 
-   
-    if len(notes) == 1:
-        editor = MostLikely.editor(notes[0].id)
-        if editor:
-            editor.setNote(mw.col.get_note(notes[0].id)) #refresh editor view
+
 
     progress_manager.start(label = "Making screenshots", max = len(screenshots_meta), immediate = True)
 
@@ -114,7 +122,14 @@ def contextualize(browser):
         Screenshots.save(meta_dict['ts'], meta_dict['filename'], videoFile_path)    
         progress_manager.update(value = scr_n)
 
-    progress_manager.finish();
+    progress_manager.finish()
+
+    if len(notes) == 1:
+        editor = MostLikely.editor(notes[0].id)
+        if editor:
+            editor.setNote(mw.col.get_note(notes[0].id)) #refresh editor view
+    else:
+        Dialogs.ResultsLog(log).exec()
 
 
 
