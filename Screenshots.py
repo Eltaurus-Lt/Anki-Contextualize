@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-import os
+import os, shutil
 from aqt import mw
 
 config = mw.addonManager.getConfig(__name__)
@@ -36,3 +36,26 @@ def save(ts, saveas, videoSource):
     fullOutputPath = os.path.join(mw.col.media.dir(), saveas)
     os.popen(f'{config["ffmpeg"]["path"]} {"-y" if overwrite else "-n"} -ss {ts} -i \"{videoSource}\" -vf scale={config["ffmpeg"]["screenshots"]["resolution"]} -frames:v 1 -q:v 7 \"{fullOutputPath}\"')
     return
+
+def enabled(videoFile_path):
+    if not videoFile_path:
+        return False
+
+    if not os.path.exists(videoFile_path):
+        raise ValueError(f"Video file not found at {videoFile_path}")
+
+    if not os.access(videoFile_path, os.X_OK):
+        raise ValueError(f"Video file is inaccessible")
+
+
+    ffmpeg_path = config["ffmpeg"]["path"]
+
+    if os.path.exists(ffmpeg_path) and os.access(ffmpeg_path, os.X_OK):
+        return True
+
+    ffmpeg_path = shutil.which(ffmpeg_path)
+
+    if (ffmpeg_path and os.path.exists(ffmpeg_path) and os.access(ffmpeg_path, os.X_OK)):
+        return True
+
+    raise ValueError(f"Incorrect ffmpeg path, check the config")

@@ -54,12 +54,18 @@ def contextualize(browser):
     try:
         sentence_db = Subtitles.parse(subtitleFile_path)
         if not sentence_db:
-            tooltip("error: parsing the subtitle file did not return any results")
+            tooltip("❌ Parsing the subtitle file did not return any results")
             return
     except Exception as error:
-        tooltip(f"error: {error}")
+        tooltip(f"❌ {error}")
         return
 
+
+    try:
+        makeScreenshots = (screenshot_field != '—' and Screenshots.enabled(videoFile_path))
+    except Exception as error:
+        tooltip(f"⚠️ Screenshots cannot be taken ({error})")
+        makeScreenshots = False
 
     screenshots_meta = set()
     progress_manager = ProgressManager(mw)
@@ -98,17 +104,20 @@ def contextualize(browser):
 
 
         # Filling-in context fields
-        if sentence_field in note.keys() and sentence_field != '—':
+
+        if sentence_field in note.keys():
             note[sentence_field] = formatSampleSentence(searchResult['word_form'], searchResult['sentence'])
             log.append((log_wordForm, note[sentence_field]))
         else:
             log.append((log_wordForm, "✅"))
-        if screenshot_field in note.keys() and bool(videoFile_path) and screenshot_field != '—':
+
+        if screenshot_field in note.keys() and makeScreenshots:
             ts = Timestamps.average(searchResult['t1'], searchResult['t2'])
             screenshotFilename = Screenshots.composeName(videoFile_path, ts)
             screenshots_meta.add((('ts', ts), ('filename', screenshotFilename)))
             note[screenshot_field] = f"<img src='{screenshotFilename}'/>"
-        if source_field in note.keys() and source_field != '—':
+
+        if source_field in note.keys():
             note[source_field] = source_text
         # adding tags
         tags = {tag.strip() for tag in re.split(r'[ \u3000]', tag_string)}
