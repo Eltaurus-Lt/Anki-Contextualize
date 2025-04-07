@@ -20,13 +20,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-from . import Dialogs, Screenshots, Timestamps, Subtitles, SubtitleSearch
+from . import Dialogs, Screenshots, Timestamps, Subtitles, SubtitleSearch, MostLikely
 from aqt import mw, gui_hooks
-from aqt.qt import *
+from aqt.qt import qconnect
 from aqt.progress import ProgressManager
 from aqt.utils import tooltip
 import os, re
-                    
 
 def formatSampleSentence(word_form, sentence):
     return sentence
@@ -100,8 +99,12 @@ def contextualize(browser):
 
         counter += 1
         mw.col.update_note(note)
-        # if len(notes) == 1:
-            # editor.set_note(editor.note) #refresh editor view
+
+   
+    if len(notes) == 1:
+        editor = MostLikely.editor(notes[0].id)
+        if editor:
+            editor.setNote(mw.col.get_note(notes[0].id)) #refresh editor view
 
     progress_manager.start(label = "Making screenshots", max = len(screenshots_meta), immediate = True)
 
